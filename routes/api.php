@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\API\V1\Auth\AuthBaseController;
 use App\Http\Controllers\API\V1\Auth\AuthController;
+use App\Http\Controllers\API\V1\HomeController;
 use App\Http\Controllers\API\V1\NotificationsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -26,6 +27,8 @@ Route::middleware('setLocale')->prefix('V1')->group(function () {
     Route::post('register', [AuthController::class, 'register']);
     Route::post('login', [AuthController::class, 'login']);
     Route::post('submitcode', [AuthController::class, 'submitCode']);
+
+    Route::get('home', HomeController::class);
 
     Route::middleware(['auth:sanctum'])->group(function () {
         Route::resource('notification', NotificationsController::class);
