@@ -2,10 +2,14 @@
 
 namespace App\Helpers;
 
+use Illuminate\Support\Facades\App;
 
 class Messages
 {
     private static $arMessages = [
+        // general
+        'operation accomplished successfully' => 'تمت العملية بنجاح',
+
         //AUTH
         'REGISTERED_SUCCESSFULLY' => 'تم إنشاء الحساب ينجاح',
         'REGISTRATION_FAILED' => 'فشلت عملية إنشاء الحساب!',
@@ -89,6 +93,9 @@ class Messages
     ];
 
     private static $enMessages = [
+        // general
+        'operation accomplished successfully' => 'Operation accomplished successfully',
+
         //AUTH
         'REGISTERED_SUCCESSFULLY' => 'Account created successfully',
         'BLOCKED_DEVICE' => 'Account is blocked',
@@ -177,6 +184,6 @@ class Messages
 
     public static function getMessage($code)
     {
-        return request()->header('lang') == 'en' ? self::$enMessages[$code] : self::$arMessages[$code];
+        return App::getLocale() == 'en' ? self::$enMessages[$code] : self::$arMessages[$code];
     }
 }

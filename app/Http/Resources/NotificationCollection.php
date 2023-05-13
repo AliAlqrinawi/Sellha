@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Helpers\Messages;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class NotificationCollection extends ResourceCollection
@@ -13,7 +14,7 @@ class NotificationCollection extends ResourceCollection
         return [
             'code' => 200,
             'status' => true,
-            'message' => 'تمت العملية بنجاح',
+            'message' => Messages::getMessage('operation accomplished successfully'),
             'data' => $this->collection,
         ];
     }

@@ -21,7 +21,7 @@ Route::middleware('auth:sanctum')->get('V1/user', function (Request $request) {
     return $request->user();
 });
 
-Route::prefix('V1')->group(function () {
+Route::middleware('setLocale')->prefix('V1')->group(function () {
 
     Route::post('register', [AuthController::class, 'register']);
     Route::post('login', [AuthController::class, 'login']);
