@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('title_en');
             $table->string('image');
             $table->string('price');
+            $table->string('discount');
             $table->text('description_ar');
             $table->text('description_en');
             $table->string('views');
