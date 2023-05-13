@@ -15,6 +15,7 @@ class AuthController extends AuthBaseController
 {
     public function login(Request $request)
     {
+        // return app()->getLocale();
         $roles = [
             'phone' => 'required|numeric|exists:users,phone',
         ];
