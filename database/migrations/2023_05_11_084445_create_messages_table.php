@@ -15,12 +15,12 @@ return new class extends Migration
     {
         Schema::create('messages', function (Blueprint $table) {
             $table->id();
-            $table->string('content');
-            $table->string('image');
-            $table->decimal('lat');
-            $table->decimal('lng');
+            $table->string('content')->nullable();
+            $table->string('image')->nullable();
+            $table->decimal('lat')->nullable();
+            $table->decimal('lng')->nullable();
             $table->boolean('is_read');
-            $table->enum('type' , ['ARCHIVED' , 'BLOCKED']);
+            $table->enum('type' , ['CONTENT' , 'IMAGE' , 'LOCATION']);
             $table->foreignId('chat_id')->constrained('chats', 'id')->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();
         });
