@@ -25,6 +25,7 @@ return new class extends Migration
             $table->string('views');
             $table->decimal('lat');
             $table->decimal('lng');
+            $table->enum('show' , ['BEST-DEALS' , 'NEW-ARRIVALS' , 'MOST-WANTED' , 'DEALS-OF-THE-WEEK'])->nullable();
             $table->enum('type' , ['NEW' , 'LIKENEW' , 'GOOD' , 'NOTSODUSTY' , 'OLD']);
             $table->enum('status' , ['ACTIVE' , 'INACTIVE'])->default('ACTIVE');
             $table->foreignId('category_id')->constrained('categories', 'id')->cascadeOnDelete()->cascadeOnUpdate();
