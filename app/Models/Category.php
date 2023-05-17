@@ -15,9 +15,8 @@ class Category extends Model
         static::addGlobalScope(new GetDataByLanguage);
     }
 
-    // public function scopeWithTranslatedTitle($query)
-    // {
-    //     $locale = app()->getLocale();
-    //     return $query->select('*', "title_$locale as title");
-    // }
+    public function sub_category()
+    {
+        return $this->belongsTo(Category::class , 'parent_id' , 'id');
+    }
 }

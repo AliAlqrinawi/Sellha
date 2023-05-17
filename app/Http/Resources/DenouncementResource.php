@@ -4,9 +4,9 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ReasonResource extends JsonResource
+class DenouncementResource extends JsonResource
 {
-    /**
+  /**
      * Transform the resource into an array.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -16,9 +16,12 @@ class ReasonResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'reason_ar' => $this->reason_ar,
-            'reason_en' => $this->reason_en,
+            'title_ar' => $this->title_ar,
+            'title_en' => $this->title_en,
+            'image' => $this->image,
+            'parent_id' => $this->parent_id,
             'status' => $this->status,
+            'sub_category' =>  new CategoryResource($this->whenLoaded('sub_category')),
         ];
     }
 }

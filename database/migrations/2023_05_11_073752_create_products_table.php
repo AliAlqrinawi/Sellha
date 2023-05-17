@@ -17,14 +17,15 @@ return new class extends Migration
             $table->id();
             $table->string('title_ar');
             $table->string('title_en');
-            $table->string('image');
+            $table->string('file');
             $table->string('price');
-            $table->string('discount');
+            $table->string('discount')->nullable();
             $table->text('description_ar');
             $table->text('description_en');
-            $table->string('views');
+            $table->string('views')->nullable();
             $table->decimal('lat');
             $table->decimal('lng');
+            $table->boolean('is_sale')->default(0);
             $table->enum('show' , ['BEST-DEALS' , 'NEW-ARRIVALS' , 'MOST-WANTED' , 'DEALS-OF-THE-WEEK'])->nullable();
             $table->enum('type' , ['NEW' , 'LIKENEW' , 'GOOD' , 'NOTSODUSTY' , 'OLD']);
             $table->enum('status' , ['ACTIVE' , 'INACTIVE'])->default('ACTIVE');

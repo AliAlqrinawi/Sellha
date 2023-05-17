@@ -5,9 +5,9 @@ namespace App\Http\Resources;
 use App\Helpers\Messages;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class FavoriteCollection extends ResourceCollection
+class DenouncementCollection extends ResourceCollection
 {
-    public $collects = FavoriteResource::class;
+    public $collects = DenouncementResource::class;
 
     public function toArray($request)
     {

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API\V1\Auth;
 use App\Helpers\Messages;
 use App\Http\Controllers\API\V1\Auth\AuthBaseController;
 use App\Http\Controllers\ControllersService;
+use App\Models\Profile;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -65,7 +66,8 @@ class AuthController extends AuthBaseController
             $newCode = mt_rand(1000, 9999);
             $user->otp = $newCode;
             $isSaved = $user->save();
-                return ControllersService::generateProcessResponse(true,  'AUTH_CODE_SENT', 200);
+            Profile::create(['user_id' => $user->id]);
+            return ControllersService::generateProcessResponse(true,  'AUTH_CODE_SENT', 200);
         } else {
             return ControllersService::generateValidationErrorMessage($validator->errors()->first(), 200);
         }
