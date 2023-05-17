@@ -14,6 +14,12 @@ class FavoriteResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'fav' => $this->fav,
+            'product_id' => $this->product_id,
+            'user_id' => $this->user_id,
+            'created_at' => $this->created_at,
+        ];
     }
 }

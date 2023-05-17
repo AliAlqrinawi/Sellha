@@ -5,7 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Image extends Model
+class File extends Model
 {
     use HasFactory;
+
+    protected $table = 'files';
+
+    protected $fillable = ['file' , 'product_id'];
 }

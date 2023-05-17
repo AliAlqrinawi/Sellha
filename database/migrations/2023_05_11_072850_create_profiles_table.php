@@ -21,6 +21,7 @@ return new class extends Migration
             $table->decimal('lat')->nullable();
             $table->decimal('lng')->nullable();
             $table->string('about')->nullable();
+            $table->enum('distance' , ['MILE' , 'KILO'])->default('MILE');
             $table->foreignId('user_id')->constrained('users', 'id')->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();
         });

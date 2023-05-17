@@ -2,18 +2,20 @@
 
 namespace App\Http\Resources;
 
+use App\Helpers\Messages;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class ReasonCollection extends ResourceCollection
 {
-    /**
-     * Transform the resource collection into an array.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
-     */
+    public $collects = ReasonResource::class;
+
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'code' => 200,
+            'status' => true,
+            'message' => Messages::getMessage('operation accomplished successfully'),
+            'data' => $this->collection,
+        ];
     }
 }
