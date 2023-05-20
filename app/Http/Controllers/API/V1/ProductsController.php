@@ -9,6 +9,8 @@ use App\Http\Requests\ProductStore;
 use App\Http\Resources\ProductCollection;
 use App\Models\File;
 use App\Models\Product;
+use App\Services\ProductStoreService;
+use App\Services\ProductUpdateService;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -25,6 +27,7 @@ class ProductsController extends Controller
     public function index(Request $request)
     {
         $products = Product::
+        // filtrt($request->query())
         when($request->name, function($q) use ($request) {
             $q->where('title_ar', 'like', '%' . $request->name . '%')
             ->orWhere('title_en' , 'like' , '%'. $request->name . '%');
@@ -69,7 +72,7 @@ class ProductsController extends Controller
                 $q->where('status' , 'COMPLETED');
             });
         })
-        ->with('category' , 'sub_category' , 'favorite' , 'files' , 'order')->get();
+        ->orderBy('id' , 'desc')->with('category' , 'sub_category' , 'favorite' , 'files' , 'order')->get();
         return (new ProductCollection($products));
     }
 
@@ -79,40 +82,11 @@ class ProductsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(ProductStore $productStore)
+    public function store(ProductStore $productStore , ProductStoreService $productStoreService)
     {
         $data = $productStore->all();
         try {
-            if ($productStore->file('image')) {
-                $name = Str::random(12);
-                $path = $productStore->file('image');
-                $name = $name . time() . '.' . $productStore->file('image')->getClientOriginalExtension();
-                $path->move('uploads/products/', $name);
-                $data['file'] = 'uploads/products/' . $name;
-            }
-            if ($productStore->file('video')) {
-                $name = Str::random(12);
-                $path = $productStore->file('video');
-                $name = $name . time() . '.' . $productStore->file('video')->getClientOriginalExtension();
-                $path->move('uploads/products/', $name);
-                $data['file'] = 'uploads/products/' . $name;
-            }
-            $data['user_id'] = Auth::user()->id;
-            $product = Product::create($data);
-            if ($productStore->hasFile('files')) {
-            $files = $productStore->file('files');
-            foreach($files as $file){
-                $name = Str::random(12);
-                $path = $file;
-                $name = $name . time() . '.' . $file->getClientOriginalExtension();
-                $path->move('uploads/products/', $name);
-                $datafile = 'uploads/products/' . $name;
-                File::create([
-                    'file' => $datafile,
-                    'product_id' => $product->id,
-                ]);
-            }
-        }
+            $productStoreService->handle($data);
             return ControllersService::generateProcessResponse(true, 'CREATE_SUCCESS', 200);
         } catch (Throwable $e) {
             return response([
@@ -141,41 +115,11 @@ class ProductsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(ProductStore $productStore, $id)
+    public function update(ProductStore $productStore, ProductUpdateService $productUpdateService , $id)
     {
         $data = $productStore->all();
         try {
-            if ($productStore->file('image')) {
-                $name = Str::random(12);
-                $path = $productStore->file('image');
-                $name = $name . time() . '.' . $productStore->file('image')->getClientOriginalExtension();
-                $path->move('uploads/products/', $name);
-                $data['file'] = 'uploads/products/' . $name;
-            }
-            if ($productStore->file('video')) {
-                $name = Str::random(12);
-                $path = $productStore->file('video');
-                $name = $name . time() . '.' . $productStore->file('video')->getClientOriginalExtension();
-                $path->move('uploads/products/', $name);
-                $data['file'] = 'uploads/products/' . $name;
-            }
-            $data['user_id'] = Auth::user()->id;
-            $product = Product::find($id);
-            $product->update($data);
-            if ($productStore->hasFile('files')) {
-            $files = $productStore->file('files');
-            foreach($files as $file){
-                $name = Str::random(12);
-                $path = $file;
-                $name = $name . time() . '.' . $file->getClientOriginalExtension();
-                $path->move('uploads/products/', $name);
-                $datafile = 'uploads/products/' . $name;
-                File::create([
-                    'file' => $datafile,
-                    'product_id' => $product->id,
-                ]);
-            }
-        }
+            $productUpdateService->handle($data , $id);
             return ControllersService::generateProcessResponse(true, 'UPDATE_SUCCESS', 200);
         } catch (Throwable $e) {
             return response([

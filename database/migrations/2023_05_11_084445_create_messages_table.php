@@ -17,8 +17,8 @@ return new class extends Migration
             $table->id();
             $table->string('content')->nullable();
             $table->string('image')->nullable();
-            $table->decimal('lat')->nullable();
-            $table->decimal('lng')->nullable();
+            $table->double('lat')->nullable();
+            $table->double('lng')->nullable();
             $table->boolean('is_read');
             $table->enum('type' , ['CONTENT' , 'IMAGE' , 'LOCATION']);
             $table->foreignId('chat_id')->constrained('chats', 'id')->cascadeOnDelete()->cascadeOnUpdate();

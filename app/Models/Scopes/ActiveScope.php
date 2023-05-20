@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Scope;
 
-class GetDataByLanguage implements Scope
+class ActiveScope implements Scope
 {
     /**
      * Apply the scope to a given Eloquent query builder.
@@ -17,7 +17,6 @@ class GetDataByLanguage implements Scope
      */
     public function apply(Builder $builder, Model $model)
     {
-        $locale = app()->getLocale();
-        return $builder->select('*', "title_$locale as title");
+        $builder->where('status', '=', 'ACTIVE');
     }
 }

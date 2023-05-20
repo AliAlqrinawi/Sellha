@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\App;
 
 class DenouncementStore extends FormRequest
 {
@@ -31,15 +32,17 @@ class DenouncementStore extends FormRequest
 
     public function messages()
     {
-        $messages = [
-            'reason.required' => 'يرجى إدخال السبب الإبلاغ',
-            'reason.max' => 'لا يمكن ان يكون السبب أكثر من 255 حرف',
+        if (App::getLocale() == 'ar') {
+            $messages = [
+                'reason.required' => 'يرجى إدخال السبب الإبلاغ',
+                'reason.max' => 'لا يمكن ان يكون السبب أكثر من 255 حرف',
 
-            'product_id.required' => 'يرجى إدخال المنتج الذي تريد الإبلاغ عنه',
-            'product_id.exists' => 'لا يوجد منتج بهذا الأسم',
-        ];
+                'product_id.required' => 'يرجى إدخال المنتج الذي تريد الإبلاغ عنه',
+                'product_id.exists' => 'لا يوجد منتج بهذا الأسم',
+            ];
 
-        return $messages;
+            return $messages;
+        }
+        return [];
     }
-
 }
