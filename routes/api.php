@@ -35,7 +35,7 @@ Route::middleware('setLocale')->prefix('V1')->group(function () {
 
     Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('home', HomeController::class);
-        Route::resource('category', CategoriesController::class);
+        Route::get('category', CategoriesController::class);
         Route::resource('product', ProductsController::class);
         Route::put('product/view/{id}', [ProductsController::class , 'view']);
         Route::delete('product/delete/images', ImagesController::class);

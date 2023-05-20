@@ -9,9 +9,9 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Throwable;
 
-class ProductStoreService
+class ProductUpdateService
 {
-    public function handle($data)
+    public function handle($data , $id)
     {
         DB::beginTransaction();
         try {
@@ -31,7 +31,8 @@ class ProductStoreService
                 $data['file'] = 'uploads/products/' . $name;
             }
             $data['user_id'] = Auth::user()->id;
-            $product = Product::create($data);
+            $product = Product::find($id);
+            $product->update($data);
             if (isset($data['files'])) {
             $files = $data['files'];
             foreach($files as $file){

@@ -23,8 +23,8 @@ return new class extends Migration
             $table->text('description_ar');
             $table->text('description_en');
             $table->string('views')->nullable();
-            $table->decimal('lat');
-            $table->decimal('lng');
+            $table->double('lat');
+            $table->double('lng');
             $table->boolean('is_sale')->default(0);
             $table->enum('show' , ['BEST-DEALS' , 'NEW-ARRIVALS' , 'MOST-WANTED' , 'DEALS-OF-THE-WEEK'])->nullable();
             $table->enum('type' , ['NEW' , 'LIKENEW' , 'GOOD' , 'NOTSODUSTY' , 'OLD']);

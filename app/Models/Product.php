@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Scopes\ActiveScope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -16,10 +17,7 @@ class Product extends Model
 
     protected static function booted()
     {
-        static::addGlobalScope('test' , function($query){
-            $locale = app()->getLocale();
-            return $query->select('*' , "title_$locale as title" , "description_$locale as description");
-        });
+        static::addGlobalScope(new ActiveScope);
     }
 
     public function category()

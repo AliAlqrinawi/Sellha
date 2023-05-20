@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('user_name')->nullable();
             $table->string('email')->nullable();
             $table->string('avatar')->nullable();
-            $table->decimal('lat')->nullable();
-            $table->decimal('lng')->nullable();
+            $table->double('lat')->nullable();
+            $table->double('lng')->nullable();
             $table->string('about')->nullable();
             $table->enum('distance' , ['MILE' , 'KILO'])->default('MILE');
             $table->foreignId('user_id')->constrained('users', 'id')->cascadeOnDelete()->cascadeOnUpdate();
