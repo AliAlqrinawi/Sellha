@@ -8,4 +8,21 @@ use Illuminate\Database\Eloquent\Model;
 class Order extends Model
 {
     use HasFactory;
+
+    protected $fillable = ['total' , 'lat' , 'lng' , 'buyer_id' , 'product_id' , 'seller_id'];
+
+    public function buyer()
+    {
+        return $this->belongsTo(User::class , 'buyer_id' , 'id');
+    }
+
+    public function seller()
+    {
+        return $this->belongsTo(User::class , 'seller_id' , 'id');
+    }
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class , 'product_id' , 'id');
+    }
 }

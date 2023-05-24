@@ -17,13 +17,10 @@ class SetLocale
     public function handle(Request $request, Closure $next)
     {
         //check for lang
-        if($request->header('lang')){
-            $lang = $request->header('lang');
-        }else{
-            $lang = app()->getLocale();
+        if($request->header('Accept-Language')){
+            $lang = $request->header('Accept-Language');
+            app()->setLocale($lang);
         }
-        app()->setLocale($lang);
-
         return $next($request);
     }
 }

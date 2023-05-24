@@ -15,11 +15,11 @@ return new class extends Migration
     {
         Schema::create('messages', function (Blueprint $table) {
             $table->id();
-            $table->string('content')->nullable();
+            $table->text('content')->nullable();
             $table->string('image')->nullable();
             $table->double('lat')->nullable();
             $table->double('lng')->nullable();
-            $table->boolean('is_read');
+            $table->boolean('is_read')->default(0);
             $table->enum('type' , ['CONTENT' , 'IMAGE' , 'LOCATION']);
             $table->foreignId('chat_id')->constrained('chats', 'id')->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();

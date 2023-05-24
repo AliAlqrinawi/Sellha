@@ -15,9 +15,10 @@ return new class extends Migration
     {
         Schema::create('chats', function (Blueprint $table) {
             $table->id();
+            $table->enum('type' , ['SALE' , 'BUY']);
+            $table->enum('status' , ['NORMAL' , 'ARCHIVED' , 'BLOCKED']);
             $table->string('image');
-            $table->boolean('is_read');
-            $table->enum('type' , ['ARCHIVED' , 'BLOCKED']);
+            $table->boolean('is_read')->default(0);
             $table->foreignId('buyer_id')->constrained('users', 'id')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('product_id')->constrained('products', 'id')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('seller_id')->constrained('users', 'id')->cascadeOnDelete()->cascadeOnUpdate();

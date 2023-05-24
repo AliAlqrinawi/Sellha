@@ -42,39 +42,4 @@ class ProductStore extends FormRequest
             'sub_category_id' => 'required|integer|exists:categories,id',
         ];
     }
-
-    public function messages()
-    {
-        if (App::getLocale() == 'ar') {
-            $messages = [
-                'title_ar.required' => 'يرجى إدخال اسم المنتج بالإنجليزي',
-                'title_ar.max' => 'يجب أن يكون أسم المنتج بالإنجليزي 255 حرف',
-                'title_en.required' =>  'يرجى إدخال اسم المنتج بالعربي',
-                'title_en.max' => 'يجب أن يكون أسم المنتج بالعربي 255 حرف',
-                'image.required' => 'يرجى إدخال صوره خاصة ب المنتج',
-                'is_sale.in' => 'لا يمكن تحديث حالة البيع الا من خلال أرسال 0 او 1',
-                'image.image' => 'لا يمكن رفع غير صوره',
-                'video.mimes' => 'يرجى رفع ملفات الفيديو فقط بالامتدادات التالية: mp4 و avi و wmv. ويجب أن يكون حجم الملف لا يتجاوز 5 ميجابايت.',
-                'price.required' => 'يرجى إدخال سعر المنتج الخاص بك',
-                'price.numeric' => 'يرجى إدخال السعر رقم وليس نص',
-                'discount.numeric' => 'يرجى إدخال الخصم رقم وليس نص',
-                'description_ar.required' => 'يرجى إدخال وصف المنتج بالعربي',
-                'description_ar.max' => 'يجب أن يكون وصف المنتج بالعربي 255 حرف',
-                'description_en.required' => 'يرجى إدخال وصف المنتج بالإنجليزي',
-                'description_en.max' => 'يجب أن يكون وصف المنتج بالإنجليزي 255 حرف',
-                'lat.required' => 'يرجى إدخال lat',
-                'lng.required' => 'يرجى إدخال lng',
-                'type.required' => 'يرجى إدخال مستوى نظافتة',
-                'type.in' => 'لا توجد هذه النظافة عنا',
-                'category_id.required' => 'يرجى إدخال الفئة التي ينتمي اليها المنتج',
-                'category_id.integer' => 'لا توجد فئة بهذا الأسم',
-                'category_id.exists' => 'لا توجد فئة بهذا الأسم',
-                'sub_category_id.required' => 'يرجى إدخال الفئة فرعية التي ينتمي اليها المنتج',
-                'sub_category_id.integer' => 'لا توجد فئة فرعية بهذا الأسم',
-                'sub_category_id.exists' => 'لا توجد فئة فرعية بهذا الأسم',
-            ];
-            return $messages;
-        }
-        return [];
-    }
 }

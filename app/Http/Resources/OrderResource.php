@@ -24,6 +24,9 @@ class OrderResource extends JsonResource
             'product_id' => $this->product_id,
             'seller_id' => $this->seller_id,
             'created_at' => $this->created_at,
+            'buyer' => new UserResource($this->whenLoaded('buyer')),
+            'product' => new ProductResource($this->whenLoaded('product')),
+            'seller' => new UserResource($this->whenLoaded('seller')),
         ];
     }
 }

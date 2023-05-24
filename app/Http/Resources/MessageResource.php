@@ -6,14 +6,18 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class MessageResource extends JsonResource
 {
-    /**
-     * Transform the resource into an array.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
-     */
+
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'content' => $this->content,
+            'image' => $this->image,
+            'lat' => $this->lat,
+            'lng' => $this->lng,
+            'is_read' => $this->is_read,
+            'type' => $this->type,
+            'chat_id' => $this->chat_id,
+            'chat' => new ChatResource($this->whenLoaded('chat')),
+        ];
     }
 }

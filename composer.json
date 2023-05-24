@@ -7,10 +7,12 @@
     "require": {
         "php": "^8.0.2",
         "guzzlehttp/guzzle": "^7.2",
-        "laravel/framework": "^9.19",
         "laravel-notification-channels/fcm": "*",
+        "laravel/framework": "^9.19",
         "laravel/sanctum": "^3.0",
         "laravel/tinker": "^2.7",
+        "laravel/ui": "^4.2",
+        "pusher/pusher-php-server": "^7.2",
         "spatie/laravel-query-builder": "^5.2",
         "yajra/laravel-datatables-buttons": "9.0"
     },

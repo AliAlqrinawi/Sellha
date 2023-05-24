@@ -35,20 +35,4 @@ class ProfileStore extends FormRequest
             'lng' => 'nullable',
         ];
     }
-
-    public function messages()
-    {
-        $messages = [
-            'phone.numeric' => 'يجب أن يكون الرقم الجوال رقم وليس نص',
-            'phone.unique' => 'الرقم المدخل مستخدم من قبل',
-            'avatar.image' => 'يرجى رفع صورة',
-            'user_name.max' => 'لا يمكن لأسم المستخدم أن يتعدى 255 حرف',
-            'about.max' => 'لا يمكن للنبذة أن تتعدى 255 حرف',
-            'distance.in' => 'يجب أن يكون قياس المسافة ب الميل او الكيلو',
-            'lat.nullable' => '',
-            'lng.nullable' => '',
-        ];
-
-        return $messages;
-    }
 }
