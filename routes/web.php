@@ -2,6 +2,7 @@
 
 use App\Models\User;
 use App\Notifications\NewOrderNotification;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function (User $user) {
-    return view('welcome');
+Route::middleware('auth')->get('/', function (User $user) {
+    return view('dashboard.dashboard');
 });
+Auth::routes();

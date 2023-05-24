@@ -29,20 +29,4 @@ class DenouncementStore extends FormRequest
             'product_id' => 'required|exists:products,id',
         ];
     }
-
-    public function messages()
-    {
-        if (App::getLocale() == 'ar') {
-            $messages = [
-                'reason.required' => 'يرجى إدخال السبب الإبلاغ',
-                'reason.max' => 'لا يمكن ان يكون السبب أكثر من 255 حرف',
-
-                'product_id.required' => 'يرجى إدخال المنتج الذي تريد الإبلاغ عنه',
-                'product_id.exists' => 'لا يوجد منتج بهذا الأسم',
-            ];
-
-            return $messages;
-        }
-        return [];
-    }
 }

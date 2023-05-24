@@ -3,10 +3,13 @@
 use App\Http\Controllers\API\V1\Auth\AuthBaseController;
 use App\Http\Controllers\API\V1\Auth\AuthController;
 use App\Http\Controllers\API\V1\CategoriesController;
+use App\Http\Controllers\API\V1\Chat\ChatsController;
+use App\Http\Controllers\API\V1\Chat\MessagesController;
 use App\Http\Controllers\API\V1\DenouncementsController;
 use App\Http\Controllers\API\V1\HomeController;
 use App\Http\Controllers\API\V1\ImagesController;
 use App\Http\Controllers\API\V1\NotificationsController;
+use App\Http\Controllers\API\V1\OrdersController;
 use App\Http\Controllers\API\V1\ProductsController;
 use App\Http\Controllers\API\V1\ProfilesController;
 use Illuminate\Http\Request;
@@ -40,8 +43,11 @@ Route::middleware('setLocale')->prefix('V1')->group(function () {
         Route::put('product/view/{id}', [ProductsController::class , 'view']);
         Route::delete('product/delete/images', ImagesController::class);
         Route::resource('profile', ProfilesController::class);
+        Route::resource('order', OrdersController::class);
         Route::resource('denouncement', DenouncementsController::class);
         Route::resource('notification', NotificationsController::class);
+        Route::resource('chat', ChatsController::class);
+        Route::resource('message', MessagesController::class);
         Route::delete('delete/profile', [AuthController::class , 'deleteAcount']);
         Route::get('logout', [AuthBaseController::class , 'logout']);
     });
