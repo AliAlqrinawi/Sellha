@@ -1,37 +1,29 @@
 let host = document.location;
 
-let PackageUrl = new URL('/admin/package', host.origin);
-let pathSegments = host.pathname.split('/');
-let currentLang = pathSegments[1];
-if(currentLang != 'ar' || currentLang != 'en'){
-    currentLang = 'en';
-}
-
-var package = $('#get_package').DataTable({
+let TableUrl = new URL('/admin/category', host.origin);
+var table = $('#get_category').DataTable({
     processing: true,
-    ajax: PackageUrl,
+    ajax: TableUrl,
     columns: [
-        {data: "DT_RowIndex", name: "DT_RowIndex"},
-        {data: "title", name: "title"},
-        {data: "description", name: "description"},
-        {data: "title_duration", name: "title_duration"},
-        {data: "duration", name: "duration"},
-        {data: "price", name: "price"},
-        {data: "status", name: "status"},
-        {data: "action", name: "action"},
+        { data: "DT_RowIndex", name: "DT_RowIndex" },
+        { data: "image", name: "image" },
+        { data: "title_ar", name: "title_ar" },
+        { data: "title_en", name: "title_en"},
+        { data: "status", name: "status" },
+        { data: "action", name: "action" },
     ]
 });
-//  view modal package
-$(document).on('click', '#ShowModalPackage', function (e) {
+//  view modal Category
+$(document).on('click', '#ShowModalCategory', function (e) {
     e.preventDefault();
-    $('#modalPackageAdd').modal('show');
+    $('#modalCategoryAdd').modal('show');
 });
 
-let AddUrl = new URL('admin/package', host.origin);
+let AddUrl = new URL('admin/category', host.origin);
 // category admin
-$(document).on('click', '#addPackage', function (e) {
+$(document).on('click', '#addCategory', function (e) {
     e.preventDefault();
-    let formdata = new FormData($('#formPackageAdd')[0]);
+    let formdata = new FormData($('#formCategoryAdd')[0]);
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -44,7 +36,7 @@ $(document).on('click', '#addPackage', function (e) {
         contentType: false,
         processData: false,
         success: function (response) {
-            if (response.status == 400) {
+            if (response.status == false) {
                 // errors
                 $('#list_error_message').html("");
                 $('#list_error_message').addClass("alert alert-danger");
@@ -53,23 +45,23 @@ $(document).on('click', '#addPackage', function (e) {
                 $('#error_message').html("");
                 $('#error_message').addClass("alert alert-success");
                 $('#error_message').text(response.message);
-                $('#modalPackageAdd').modal('hide');
-                $('#formPackageAdd')[0].reset();
-                package.ajax.reload(null, false);
+                $('#modalCategoryAdd').modal('hide');
+                $('#formCategoryAdd')[0].reset();
+                table.ajax.reload(null, false);
             }
         }
     });
 });
 
-let EditUrl = new URL('admin/package', host.origin);
+let EditUrl = new URL('admin/category', host.origin);
 // view modification data
-$(document).on('click', '#showModalEditPackage', function (e) {
+$(document).on('click', '#showModalEditCategory', function (e) {
     e.preventDefault();
     var id = $(this).data('id');
-    $('#modalPackageUpdate').modal('show');
+    $('#modalCategoryUpdate').modal('show');
     $.ajax({
         type: 'GET',
-        url: EditUrl+'/' + id+'/edit',
+        url: EditUrl + '/' + id + '/edit',
         data: "",
         success: function (response) {
             if (response.status == 404) {
@@ -80,24 +72,16 @@ $(document).on('click', '#showModalEditPackage', function (e) {
                 $('#id').val(id);
                 $('#title_en').val(response.data.title_en);
                 $('#title_ar').val(response.data.title_ar);
-                $('#description_en').val(response.data.description_en);
-                $('#description_ar').val(response.data.description_ar);
-                $('#title_duration_ar').val(response.data.title_duration_ar);
-                $('#title_duration_en').val(response.data.title_duration_en);
-                $('#duration').val(response.data.duration);
-                $('#price').val(response.data.price);
-                $('#options').val(response.data.options);
-                $('#end_at').val(response.data.end_at);
-                $("#status option[value='"+response.data.status+"']").prop("selected", true);
+                $("#status option[value='" + response.data.status + "']").prop("selected", true);
             }
         }
     });
 });
 
-let UpdateUrl = new URL('admin/package', host.origin);
-$(document).on('click', '#updatePackage', function (e) {
+let UpdateUrl = new URL('admin/category', host.origin);
+$(document).on('click', '#updateCategory', function (e) {
     e.preventDefault();
-    let formdata = new FormData($('#formPackageUpdate')[0]);
+    let formdata = new FormData($('#formCategoryUpdate')[0]);
     var id = $('#id').val();
     $.ajaxSetup({
         headers: {
@@ -106,12 +90,12 @@ $(document).on('click', '#updatePackage', function (e) {
     });
     $.ajax({
         type: 'POST',
-        url: UpdateUrl+'/'+id,
+        url: UpdateUrl + '/' + id,
         data: formdata,
         contentType: false,
         processData: false,
         success: function (response) {
-            if (response.status == 400) {
+            if (response.status == false) {
                 // errors
                 $('#list_error_message2').html("");
                 $('#list_error_message2').addClass("alert alert-danger");
@@ -120,24 +104,25 @@ $(document).on('click', '#updatePackage', function (e) {
                 $('#error_message').html("");
                 $('#error_message').addClass("alert alert-success");
                 $('#error_message').text(response.message);
-                $('#modalPackageUpdate').modal('hide');
-                $('#formPackageUpdate')[0].reset();
-                package.ajax.reload(null, false);
+                $('#modalCategoryUpdate').modal('hide');
+                $('#formCategoryUpdate')[0].reset();
+                table.ajax.reload(null, false);
             }
         }
     });
 });
 
-let DeleteUrl = new URL('admin/package', host.origin);
-$(document).on('click', '#showModalDeletePackage', function (e) {
+let DeleteUrl = new URL('admin/category', host.origin);
+$(document).on('click', '#showModalDeleteCategory', function (e) {
     e.preventDefault();
     $('#nameDetele').val($(this).data('name'));
     var id = $(this).data('id');
-    $('#modalPackageDelete').modal('show');
+    console.log(id);
+    $('#modalCategoryDelete').modal('show');
     gg(id);
 });
 function gg(id) {
-    $(document).off("click", "#deletePackage").on("click", "#deletePackage", function (e) {
+    $(document).off("click", "#deleteCategory").on("click", "#deleteCategory", function (e) {
         e.preventDefault();
         $.ajaxSetup({
             headers: {
@@ -146,12 +131,12 @@ function gg(id) {
         });
         $.ajax({
             type: 'DELETE',
-            url: DeleteUrl+'/'+id,
+            url: DeleteUrl + '/' + id,
             data: '',
             contentType: false,
             processData: false,
             success: function (response) {
-                if (response.status == 400) {
+                if (response.status == false) {
                     // errors
                     $('#list_error_message3').html("");
                     $('#list_error_message3').addClass("alert alert-danger");
@@ -160,15 +145,15 @@ function gg(id) {
                     $('#error_message').html("");
                     $('#error_message').addClass("alert alert-success");
                     $('#error_message').text(response.message);
-                    $('#modalPackageDelete').modal('hide');
-                    package.ajax.reload(null, false);
+                    $('#modalCategoryDelete').modal('hide');
+                    table.ajax.reload(null, false);
                 }
             }
         });
     });
 }
 
-let statusUrl = new URL('admin/status/package', host.origin);
+let statusUrl = new URL('admin/status/category', host.origin);
 $(document).on('click', '#status', function (e) {
     e.preventDefault();
     var id = $(this).data('id');
@@ -179,26 +164,20 @@ $(document).on('click', '#status', function (e) {
     });
     $.ajax({
         type: 'PUT',
-        url: statusUrl+'/'+id,
+        url: statusUrl + '/' + id,
         data: "",
         success: function (response) {
-             if (response.status == 400) {
-                    // errors
-                    $('#list_error_message3').html("");
-                    $('#list_error_message3').addClass("alert alert-danger");
-                    $('#list_error_message3').text(response.message);
-                } else {
-                    $('#error_message').html("");
-                    $('#error_message').addClass("alert alert-success");
-                    $('#error_message').text(response.message);
-                    package.ajax.reload(null, false);
-                }
+            if (response.status == 400) {
+                // errors
+                $('#list_error_message3').html("");
+                $('#list_error_message3').addClass("alert alert-danger");
+                $('#list_error_message3').text(response.message);
+            } else {
+                $('#error_message').html("");
+                $('#error_message').addClass("alert alert-success");
+                $('#error_message').text(response.message);
+                table.ajax.reload(null, false);
+            }
         }
     });
-});
-
-//  close action
-$(document).on('click', '#close', function (e) {
-    e.preventDefault();
-    $('#formPackageAdd')[0].reset();
 });

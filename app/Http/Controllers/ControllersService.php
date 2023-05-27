@@ -130,4 +130,13 @@ class ControllersService
     {
         return Messages::getMessage($processCode);
     }
+
+    public static function responseSuccess($responseArray, $statusCode = 200)
+    {
+        return response()->json($responseArray, $statusCode);
+    }
+    public static function responseErorr($responseArray, $statusCode = 200)
+    {
+        return response()->json($responseArray, $statusCode);
+    }
 }
