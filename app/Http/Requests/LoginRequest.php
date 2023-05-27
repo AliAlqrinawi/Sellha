@@ -22,7 +22,7 @@ class LoginRequest extends FormRequest
 
     public function userData()
     {
-        // $data = $this->validated();
+        $data = $this->validated();
         $data['otp'] = Hash::make(mt_rand(1000, 9999));
         return $data;
     }

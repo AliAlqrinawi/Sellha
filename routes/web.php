@@ -1,7 +1,8 @@
 <?php
 
+use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\SubCategoriesController;
 use App\Models\User;
-use App\Notifications\NewOrderNotification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -20,3 +21,13 @@ Route::middleware('auth')->get('/', function (User $user) {
     return view('dashboard.dashboard');
 });
 Auth::routes();
+
+Route::group([
+    'prefix' => '/admin',
+    'middleware' => ['auth']
+],function () {
+    Route::resource('category' , CategoriesController::class);
+    Route::put('status/category/{id}', [CategoriesController::class , 'status']);
+    Route::resource('subCategory' , SubCategoriesController::class);
+    Route::put('status/subCategory/{id}', [SubCategoriesController::class , 'status']);
+});

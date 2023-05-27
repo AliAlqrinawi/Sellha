@@ -11,6 +11,8 @@ class Category extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['title_ar' , 'title_en' , 'image' , 'status' , 'parent_id'];
+
     protected static function booted()
     {
         static::addGlobalScope(new ActiveScope);
@@ -19,5 +21,19 @@ class Category extends Model
     public function sub_category()
     {
         return $this->belongsTo(Category::class , 'parent_id' , 'id');
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class , 'parent_id' , 'id');
+    }
+
+    public function scopeChangeStatus()
+    {
+        if($this->status == "ACTIVE"){
+            $this->update(['status' => 'INACTIVE']);
+        }else{
+            $this->update(['status' => 'ACTIVE']);
+        }
     }
 }
