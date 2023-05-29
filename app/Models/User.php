@@ -27,4 +27,23 @@ class User extends Authenticatable
     {
         return $this->hasOne(Profile::class);
     }
+
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class , 'seller_id');
+    }
+
+    public function scopeChangeStatus()
+    {
+        if($this->status == "ACTIVE"){
+            $this->update(['status' => 'INACTIVE']);
+        }else{
+            $this->update(['status' => 'ACTIVE']);
+        }
+    }
 }

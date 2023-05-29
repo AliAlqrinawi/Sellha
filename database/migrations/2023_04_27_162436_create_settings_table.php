@@ -13,11 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('ads', function (Blueprint $table) {
+        Schema::create('settings', function (Blueprint $table) {
             $table->id();
-            $table->string('url')->nullable();
-            $table->string('image');
-            $table->enum('status' , ['ACTIVE' , 'INACTIVE'])->default('ACTIVE');
+            $table->string('key')->unique();
+            $table->longText('value')->nullable();
+            $table->string('label_en');
+            $table->string('label_ar');
+            $table->string('type');
+            $table->string('group');
             $table->timestamps();
         });
     }
@@ -29,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ads');
+        Schema::dropIfExists('settings');
     }
 };
