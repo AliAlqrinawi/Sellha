@@ -13,7 +13,7 @@ class Product extends Model
     use HasFactory;
 
     protected $fillable = ['title_ar' , 'title_en' , 'file' , 'price' , 'discount' , 'is_sale' , 'description_ar'
-    , 'description_en' , 'lat' , 'lng' , 'type' , 'category_id' , 'sub_category_id'];
+    , 'description_en' , 'lat' , 'lng' , 'type' , 'category_id' , 'sub_category_id' , 'user_id'];
 
     protected static function booted()
     {

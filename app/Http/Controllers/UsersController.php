@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CategoryRequest;
-use App\Models\Category;
-use App\Models\Scopes\ActiveScope;
+use App\Http\Requests\RegisterRequest;
+use App\Http\Requests\UpdateUserRequest;
+use App\Models\Profile;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 
-class CategoriesController extends Controller
+class UsersController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,13 +19,9 @@ class CategoriesController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = Category::where('parent_id' , NULL)->withoutGlobalScope(ActiveScope::class)->orderBy('id' , 'desc')->get();
+            $data = User::where('type' , 'USER')->orderBy('id' , 'desc')->get();
             return DataTables::of($data)
                 ->addIndexColumn()
-                ->addColumn('image', function ($row) {
-                    $image = '<img src="' . asset('/') . $row->image . '" alt="image" width="50" height="50">';
-                    return $image;
-                })
                 ->addColumn('status', function ($row) {
                     if ($row->status == 'ACTIVE') {
                         $status = '<button class="modal-effect btn btn-sm btn-success" style="margin: 5px" id="status" data-id="' . $row->id . '" ><i class=" icon-check"></i></button>';
@@ -34,14 +31,13 @@ class CategoriesController extends Controller
                     return $status;
                 })
                 ->addColumn('action', function ($row) {
-                    // $btn = '<a class="modal-effect btn btn-sm btn-secondary" style="margin: 5px" href="'. route('business.index'). '?category='. $row->id .'"><i class="las la-clipboard"></i></a>';
-                    $btn = '<button class="modal-effect btn btn-sm btn-info"  style="margin: 5px" id="showModalEditCategory" data-id="' . $row->id . '"><i class="las la-pen"></i></button>';
-                    $btn = $btn . '<button class="modal-effect btn btn-sm btn-danger" style="margin: 5px" id="showModalDeleteCategory" data-name="' . $row->title_en . '" data-id="' . $row->id . '"><i class="las la-trash"></i></button>';
+                    $btn = '<button class="modal-effect btn btn-sm btn-info"  style="margin: 5px" id="showModalEditUser" data-id="' . $row->id . '"><i class="las la-pen"></i></button>';
+                    $btn = $btn . '<button class="modal-effect btn btn-sm btn-danger" style="margin: 5px" id="showModalDeleteUser" data-name="' . $row->name . '" data-id="' . $row->id . '"><i class="las la-trash"></i></button>';
                     return $btn;
                 })
-                ->rawColumns(['image' => 'image', 'status' => 'status', 'action' => 'action'])->make(true);
+                ->rawColumns(['status' => 'status', 'action' => 'action'])->make(true);
         }
-        return view('dashboard.views-dash.category.index');
+        return view('dashboard.views-dash.user.index');
     }
 
     /**
@@ -50,10 +46,22 @@ class CategoriesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CategoryRequest $categoryRequest)
+    public function store(RegisterRequest $userRequest)
     {
-        Category::create($categoryRequest->categoryData());
+        $user = User::create($userRequest->userData());
+        Profile::create(['user_id' => $user->id]);
         return ControllersService::responseSuccess(['message' => __('Added successfully') , 'status' => 200]);
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        //
     }
 
     /**
@@ -64,12 +72,12 @@ class CategoriesController extends Controller
      */
     public function edit($id)
     {
-        $category = Category::withoutGlobalScope(ActiveScope::class)->find($id);
-        if ($category) {
+        $user = User::find($id);
+        if ($user) {
             return ControllersService::responseSuccess([
                 'message' => __('Found Data'),
                 'status' => 200,
-                'data' => $category
+                'data' => $user
             ]);
         }
         return ControllersService::responseErorr([
@@ -85,10 +93,10 @@ class CategoriesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(CategoryRequest $categoryRequest, $id)
+    public function update(UpdateUserRequest $updateUserRequest, $id)
     {
-        Category::withoutGlobalScope(ActiveScope::class)->find($id)->update($categoryRequest->categoryData());
-        return ControllersService::responseSuccess(['message' => __('updated successfully'),'status' => 200]);
+        $user = User::find($id)->update($updateUserRequest->all());
+        return ControllersService::responseSuccess(['message' => __('Updated successfully') , 'status' => 200]);
     }
 
     /**
@@ -99,9 +107,9 @@ class CategoriesController extends Controller
      */
     public function destroy($id)
     {
-        $category = Category::withoutGlobalScope(ActiveScope::class)->find($id);
-        if ($category) {
-            $category->delete();
+        $user = User::find($id);
+        if ($user) {
+            $user->delete();
             return ControllersService::responseSuccess([
                 'message' => __('Deleted successfully'),
                 'status' => 200,
@@ -115,17 +123,17 @@ class CategoriesController extends Controller
 
     public function status($id)
     {
-        $category = Category::withoutGlobalScope(ActiveScope::class)->find($id);
-        if ($category) {
-            $category->changeStatus();
+        $user = User::find($id);
+        if ($user) {
+            $user->changeStatus();
             return ControllersService::responseSuccess([
                 'message' => __('Updated successfully'),
                 'status' => 200,
             ]);
         } else {
             return ControllersService::responseErorr([
-                'message' => __('Not Found Data'),
-                'status' => 400,
+                'message' =>  __('Not Found Data'),
+                'status' => false,
             ]);
         }
     }

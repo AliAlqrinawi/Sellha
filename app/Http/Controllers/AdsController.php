@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CategoryRequest;
-use App\Models\Category;
+use App\Http\Requests\AdRequest;
+use App\Models\Ad;
 use App\Models\Scopes\ActiveScope;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 
-class CategoriesController extends Controller
+class AdsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,7 +18,7 @@ class CategoriesController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = Category::where('parent_id' , NULL)->withoutGlobalScope(ActiveScope::class)->orderBy('id' , 'desc')->get();
+            $data = Ad::withoutGlobalScope(ActiveScope::class)->orderBy('id' , 'desc')->get();
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('image', function ($row) {
@@ -34,14 +34,13 @@ class CategoriesController extends Controller
                     return $status;
                 })
                 ->addColumn('action', function ($row) {
-                    // $btn = '<a class="modal-effect btn btn-sm btn-secondary" style="margin: 5px" href="'. route('business.index'). '?category='. $row->id .'"><i class="las la-clipboard"></i></a>';
-                    $btn = '<button class="modal-effect btn btn-sm btn-info"  style="margin: 5px" id="showModalEditCategory" data-id="' . $row->id . '"><i class="las la-pen"></i></button>';
-                    $btn = $btn . '<button class="modal-effect btn btn-sm btn-danger" style="margin: 5px" id="showModalDeleteCategory" data-name="' . $row->title_en . '" data-id="' . $row->id . '"><i class="las la-trash"></i></button>';
+                    $btn = '<button class="modal-effect btn btn-sm btn-info"  style="margin: 5px" id="showModalEditAd" data-id="' . $row->id . '"><i class="las la-pen"></i></button>';
+                    $btn = $btn . '<button class="modal-effect btn btn-sm btn-danger" style="margin: 5px" id="showModalDeleteAd" data-name="' . $row->url . '" data-id="' . $row->id . '"><i class="las la-trash"></i></button>';
                     return $btn;
                 })
                 ->rawColumns(['image' => 'image', 'status' => 'status', 'action' => 'action'])->make(true);
         }
-        return view('dashboard.views-dash.category.index');
+        return view('dashboard.views-dash.ad.index');
     }
 
     /**
@@ -50,9 +49,9 @@ class CategoriesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CategoryRequest $categoryRequest)
+    public function store(AdRequest $adRequest)
     {
-        Category::create($categoryRequest->categoryData());
+        Ad::create($adRequest->adData());
         return ControllersService::responseSuccess(['message' => __('Added successfully') , 'status' => 200]);
     }
 
@@ -64,12 +63,12 @@ class CategoriesController extends Controller
      */
     public function edit($id)
     {
-        $category = Category::withoutGlobalScope(ActiveScope::class)->find($id);
-        if ($category) {
+        $ad = Ad::withoutGlobalScope(ActiveScope::class)->find($id);
+        if ($ad) {
             return ControllersService::responseSuccess([
                 'message' => __('Found Data'),
                 'status' => 200,
-                'data' => $category
+                'data' => $ad
             ]);
         }
         return ControllersService::responseErorr([
@@ -85,9 +84,9 @@ class CategoriesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(CategoryRequest $categoryRequest, $id)
+    public function update(AdRequest $adRequest, $id)
     {
-        Category::withoutGlobalScope(ActiveScope::class)->find($id)->update($categoryRequest->categoryData());
+        Ad::withoutGlobalScope(ActiveScope::class)->find($id)->update($adRequest->adData());
         return ControllersService::responseSuccess(['message' => __('updated successfully'),'status' => 200]);
     }
 
@@ -99,9 +98,9 @@ class CategoriesController extends Controller
      */
     public function destroy($id)
     {
-        $category = Category::withoutGlobalScope(ActiveScope::class)->find($id);
-        if ($category) {
-            $category->delete();
+        $ad = Ad::withoutGlobalScope(ActiveScope::class)->find($id);
+        if ($ad) {
+            $ad->delete();
             return ControllersService::responseSuccess([
                 'message' => __('Deleted successfully'),
                 'status' => 200,
@@ -115,9 +114,9 @@ class CategoriesController extends Controller
 
     public function status($id)
     {
-        $category = Category::withoutGlobalScope(ActiveScope::class)->find($id);
-        if ($category) {
-            $category->changeStatus();
+        $ad = Ad::withoutGlobalScope(ActiveScope::class)->find($id);
+        if ($ad) {
+            $ad->changeStatus();
             return ControllersService::responseSuccess([
                 'message' => __('Updated successfully'),
                 'status' => 200,

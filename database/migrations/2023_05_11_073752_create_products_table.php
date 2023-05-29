@@ -29,6 +29,7 @@ return new class extends Migration
             $table->enum('show' , ['BEST-DEALS' , 'NEW-ARRIVALS' , 'MOST-WANTED' , 'DEALS-OF-THE-WEEK'])->nullable();
             $table->enum('type' , ['NEW' , 'LIKENEW' , 'GOOD' , 'NOTSODUSTY' , 'OLD']);
             $table->enum('status' , ['ACTIVE' , 'INACTIVE'])->default('ACTIVE');
+            $table->foreignId('user_id')->constrained('users', 'id')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('category_id')->constrained('categories', 'id')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('sub_category_id')->constrained('categories', 'id')->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();

@@ -52,7 +52,7 @@ class SubCategoriesController extends Controller
     public function store(SubCategoryRequest $subCategoryRequest)
     {
         Category::create($subCategoryRequest->subCategoryData());
-        return ControllersService::responseSuccess(['message' => 'Added successfully' , 'status' => 200]);
+        return ControllersService::responseSuccess(['message' => __('Added successfully') , 'status' => 200]);
     }
 
     /**
@@ -66,13 +66,13 @@ class SubCategoriesController extends Controller
         $category = Category::withoutGlobalScope(ActiveScope::class)->find($id);
         if ($category) {
             return ControllersService::responseSuccess([
-                'message' => 'Found Data',
+                'message' => __('Found Data'),
                 'status' => 200,
                 'data' => $category
             ]);
         }
         return ControllersService::responseErorr([
-            'message' => 'Not Found Data',
+            'message' => __('Not Found Data'),
             'status' => 400,
         ]);
     }
@@ -87,7 +87,7 @@ class SubCategoriesController extends Controller
     public function update(SubCategoryRequest $subCategoryRequest, $id)
     {
         Category::withoutGlobalScope(ActiveScope::class)->find($id)->update($subCategoryRequest->subCategoryData());
-        return ControllersService::responseSuccess(['message' => 'updated successfully','status' => 200]);
+        return ControllersService::responseSuccess(['message' => __('updated successfully'),'status' => 200]);
     }
 
     /**
@@ -102,12 +102,12 @@ class SubCategoriesController extends Controller
         if ($category) {
             $category->delete();
             return ControllersService::responseSuccess([
-                'message' => 'Deleted successfully',
+                'message' => __('Deleted successfully'),
                 'status' => 200,
             ]);
         }
         return ControllersService::responseErorr([
-            'message' => 'Not Found Data',
+            'message' => __('Not Found Data'),
             'status' => false,
         ]);
     }
@@ -118,12 +118,12 @@ class SubCategoriesController extends Controller
         if ($category) {
             $category->changeStatus();
             return ControllersService::responseSuccess([
-                'message' => 'Updated successfully',
+                'message' => __('updated successfully'),
                 'status' => 200,
             ]);
         } else {
             return ControllersService::responseErorr([
-                'message' => 'Not Found Data',
+                'message' => __('Not Found Data'),
                 'status' => 400,
             ]);
         }
