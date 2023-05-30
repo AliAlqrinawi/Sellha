@@ -46,4 +46,20 @@ class User extends Authenticatable
             $this->update(['status' => 'ACTIVE']);
         }
     }
+
+    public function roles(){
+        return $this->belongsToMany(Role::class , 'role_users');
+    }
+
+    public function permissions($permissions)
+    {
+        foreach($this->roles as $role){
+            if(in_array($permissions ,  $role->permissions)){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+    }
 }

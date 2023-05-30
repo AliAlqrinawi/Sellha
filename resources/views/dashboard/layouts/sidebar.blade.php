@@ -31,17 +31,63 @@
             <ul class="side-menu">
                 <li class="side-item side-item-category">{{ __('Main') }}</li>
                 <li class="slide">
-                    <a class="side-menu__item" href=""><svg xmlns="http://www.w3.org/2000/svg"
-                            class="side-menu__icon" viewBox="0 0 24 24">
-                            <path d="M0 0h24v24H0V0z" fill="none" />
-                            <path d="M5 5h4v6H5zm10 8h4v6h-4zM5 17h4v2H5zM15 5h4v2h-4z" opacity=".3" />
-                            <path
-                                d="M3 13h8V3H3v10zm2-8h4v6H5V5zm8 16h8V11h-8v10zm2-8h4v6h-4v-6zM13 3v6h8V3h-8zm6 4h-4V5h4v2zM3 21h8v-6H3v6zm2-4h4v2H5v-2z" />
-                        </svg><span class="side-menu__label">{{ __('Home') }}</span><span
+                    <a class="side-menu__item" href="">
+                        <img class="side-menu__icon mCS_img_loaded" src="https://img.icons8.com/fluency/48/000000/dashboard-layout.png" style=" width: 30px; height: 30px;">
+                        <span class="side-menu__label">{{ __('Home') }}</span><span
                             class="badge bg-success text-light bg-side-text">1</span></a>
                 </li>
                 <li class="side-item side-item-category">{{ __('General') }}</li>
-
+                <li class="slide">
+                    <a class="side-menu__item" href="{{ route('admin.index') }}">
+                        <img class="side-menu__icon mCS_img_loaded"
+                        src="https://img.icons8.com/external-icongeek26-outline-colour-icongeek26/64/000000/external-monitor-online-education-icongeek26-outline-colour-icongeek26-1.png" style=" width: 30px; height: 30px;">
+                        <span class="side-menu__label">{{ __('Admins') }}</span></a>
+                </li>
+                @can('role-view')
+                <li class="slide">
+                    <a class="side-menu__item" href="{{ route('role.index') }}">
+                        <img class="side-menu__icon mCS_img_loaded"
+                         src="https://img.icons8.com/nolan/344/service.png" style=" width: 30px; height: 30px;">
+                        <span class="side-menu__label">{{ __('Roles') }}</span></a>
+                </li>
+                @endcan
+                <li class="slide">
+                    <a class="side-menu__item" href="{{ route('user.index') }}">
+                        <img width="30" style="margin-inline-end: 14px;"
+                            src="https://img.icons8.com/nolan/344/customer-insight.png" />
+                        <span class="side-menu__label">{{ __('Users') }}</span></a>
+                </li>
+                <li class="slide">
+                    <a class="side-menu__item" href="{{ route('ad.index') }}">
+                        <img class="side-menu__icon mCS_img_loaded"
+                            src="https://img.icons8.com/external-icongeek26-outline-colour-icongeek26/344/external-ads-ads-icongeek26-outline-colour-icongeek26-7.png"
+                            style=" width: 30px; height: 30px;">
+                        <span class="side-menu__label">{{ __('Ads') }}</span></a>
+                </li>
+                <li class="slide">
+                    <a class="side-menu__item" href="{{ route('category.index') }}">
+                        <img class="side-menu__icon mCS_img_loaded"
+                            src="https://img.icons8.com/nolan/344/categorize.png" style=" width: 30px; height: 30px;">
+                        <span class="side-menu__label">{{ __('Categories') }}</span></a>
+                </li>
+                <li class="slide">
+                    <a class="side-menu__item" href="{{ route('subCategory.index') }}">
+                        <img class="side-menu__icon mCS_img_loaded"
+                            src="https://img.icons8.com/nolan/344/categorize.png" style=" width: 30px; height: 30px;">
+                        <span class="side-menu__label">{{ __('Sub Categories') }}</span></a>
+                </li>
+                <li class="slide">
+                    <a class="side-menu__item" href="{{ route('denouncement.index') }}">
+                        <img class="side-menu__icon mCS_img_loaded" src="https://img.icons8.com/nolan/344/email.png"
+                            style=" width: 30px; height: 30px;">
+                        <span class="side-menu__label">{{ __('Denouncements') }}</span></a>
+                </li>
+                <li class="slide">
+                    <a class="side-menu__item" href="{{ route('setting.index') }}">
+                        <img class="side-menu__icon mCS_img_loaded" style=" width: 30px; height: 30px;"
+                            src="https://img.icons8.com/nolan/64/settings--v1.png">
+                        <span class="side-menu__label">{{ __('Settings') }}</span></a>
+                </li>
             </ul>
             <div class="slide-right" id="slide-right"><svg xmlns="http://www.w3.org/2000/svg" fill="#7b8191"
                     width="24" height="24" viewBox="0 0 24 24">

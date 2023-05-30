@@ -6,6 +6,7 @@ use App\Http\Requests\SubCategoryRequest;
 use App\Models\Category;
 use App\Models\Scopes\ActiveScope;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Yajra\DataTables\DataTables;
 
 class SubCategoriesController extends Controller
@@ -17,6 +18,10 @@ class SubCategoriesController extends Controller
      */
     public function index(Request $request)
     {
+        if (!Gate::allows('subCategory-view')) {
+            abort(500);
+        }
+        $categories = Category::where('parent_id' , NULL)->withoutGlobalScope(ActiveScope::class)->orderBy('id' , 'desc')->get();
         if ($request->ajax()) {
             $data = Category::where('parent_id' , '!=' , NULL)->with('category')->withoutGlobalScope(ActiveScope::class)->orderBy('id' , 'desc')->get();
             return DataTables::of($data)
@@ -40,7 +45,7 @@ class SubCategoriesController extends Controller
                 })
                 ->rawColumns(['image' => 'image', 'status' => 'status', 'action' => 'action'])->make(true);
         }
-        return view('dashboard.views-dash.subCategory.index');
+        return view('dashboard.views-dash.subCategory.index' , compact('categories'));
     }
 
     /**
@@ -63,7 +68,7 @@ class SubCategoriesController extends Controller
      */
     public function edit($id)
     {
-        $category = Category::withoutGlobalScope(ActiveScope::class)->find($id);
+        $category = Category::with('category')->withoutGlobalScope(ActiveScope::class)->find($id);
         if ($category) {
             return ControllersService::responseSuccess([
                 'message' => __('Found Data'),

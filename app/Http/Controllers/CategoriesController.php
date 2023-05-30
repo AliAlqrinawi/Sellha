@@ -6,6 +6,7 @@ use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
 use App\Models\Scopes\ActiveScope;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Yajra\DataTables\DataTables;
 
 class CategoriesController extends Controller
@@ -17,6 +18,9 @@ class CategoriesController extends Controller
      */
     public function index(Request $request)
     {
+        if (!Gate::allows('category-view')) {
+            abort(500);
+        }
         if ($request->ajax()) {
             $data = Category::where('parent_id' , NULL)->withoutGlobalScope(ActiveScope::class)->orderBy('id' , 'desc')->get();
             return DataTables::of($data)

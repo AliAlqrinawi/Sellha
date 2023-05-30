@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Denouncement;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Yajra\DataTables\DataTables;
 
 class DenouncementsController extends Controller
@@ -15,6 +16,9 @@ class DenouncementsController extends Controller
      */
     public function index(Request $request)
     {
+        if (!Gate::allows('denouncement-view')) {
+            abort(500);
+        }
         if ($request->ajax()) {
             $data = Denouncement::with('product' , 'user')->orderBy('id' , 'desc')->get();
             return DataTables::of($data)

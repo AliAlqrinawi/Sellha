@@ -5,11 +5,15 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Setting;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class SettingsController extends Controller
 {
     public function index()
     {
+        if (!Gate::allows('setting-view')) {
+            abort(500);
+        }
         $settings=Setting::where('group','general')->orderBy('id')->get();
         return view('dashboard.views-dash.setting.index',compact('settings'));
     }

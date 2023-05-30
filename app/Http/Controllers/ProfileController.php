@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Profile;
 use App\Models\User;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
 
 class ProfileController extends Controller
@@ -17,6 +18,9 @@ class ProfileController extends Controller
      */
     public function show($id)
     {
+        if (!Gate::allows('user-view')) {
+            abort(500);
+        }
         $user = User::with('profile')->withCount('products' , 'orders')->withSum('orders' , 'total')->find($id);
         return view('dashboard.views-dash.profile.index' , compact('user'));
     }

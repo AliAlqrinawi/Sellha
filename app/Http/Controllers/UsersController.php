@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateUserRequest;
 use App\Models\Profile;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Yajra\DataTables\DataTables;
 
 class UsersController extends Controller
@@ -18,6 +19,9 @@ class UsersController extends Controller
      */
     public function index(Request $request)
     {
+        if (!Gate::allows('user-view')) {
+            abort(500);
+        }
         if ($request->ajax()) {
             $data = User::where('type' , 'USER')->orderBy('id' , 'desc')->get();
             return DataTables::of($data)
