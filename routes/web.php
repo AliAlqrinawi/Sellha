@@ -2,16 +2,17 @@
 
 use App\Http\Controllers\AdsController;
 use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\ControlPanelUsersController;
 use App\Http\Controllers\DenouncementsController;
-use App\Http\Controllers\OtpController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\SubCategoriesController;
 use App\Http\Controllers\UsersController;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -23,16 +24,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('otp', [OtpController::class , 'sendOtp']);
+Route::get('test' , function(){
+    return view('dashboard.test');
+});
 
-Route::middleware('auth')->get('/', function (User $user) {
+Route::prefix(LaravelLocalization::setLocale())->middleware(['auth' , 'localization'])->get('/', function (User $user) {
     return view('dashboard.dashboard');
 });
 Auth::routes();
 
 Route::group([
-    'prefix' => '/admin',
-    'middleware' => ['auth']
+    'prefix' => LaravelLocalization::setLocale().'/admin',
+    'middleware' => ['auth' , 'localization']
 ],function () {
     Route::resource('ad' , AdsController::class);
     Route::put('status/ad/{id}', [AdsController::class , 'status']);
@@ -46,4 +49,7 @@ Route::group([
     Route::put('profile/{id}', [ProfileController::class , 'update'])->name('profile.update1');
     Route::resource('setting', SettingsController::class)->only(['index' , 'update']);
     Route::resource('denouncement', DenouncementsController::class)->only(['index' , 'destroy']);
+    Route::resource('role' , RoleController::class);
+    Route::resource('admin' , ControlPanelUsersController::class);
+    Route::put('status/admin/{id}', [ControlPanelUsersController::class , 'status']);
 });

@@ -6,6 +6,7 @@ use App\Http\Requests\AdRequest;
 use App\Models\Ad;
 use App\Models\Scopes\ActiveScope;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Yajra\DataTables\DataTables;
 
 class AdsController extends Controller
@@ -17,6 +18,9 @@ class AdsController extends Controller
      */
     public function index(Request $request)
     {
+        if (!Gate::allows('ad-view')) {
+            abort(500);
+        }
         if ($request->ajax()) {
             $data = Ad::withoutGlobalScope(ActiveScope::class)->orderBy('id' , 'desc')->get();
             return DataTables::of($data)

@@ -39,6 +39,15 @@
                             </div>
 
                             <div class="form-group col-md-6">
+                                <label for="exampleInputEmail1">{{ __('Master category') }} :</label>
+                                <select name="parent_id" class="form-control">
+                                    @foreach ($categories as $value)
+                                    <option value="{{ $value->id }}">{{ app()->getLocale() == 'ar' ? $value->title_ar : $value->title_en }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class="form-group col-md-6">
                                 <label for="exampleInputEmail1">{{ __('Status') }} :</label>
                                 <select name="status" class="form-control">
                                     <option value="ACTIVE">{{ __('ACTIVE') }}</option>
@@ -86,6 +95,15 @@
                             <div class="form-group col-md-6">
                                 <label for="exampleInputEmail1">{{ __('Image') }} :</label>
                                 <input type="file" class="form-control" name="image" required>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="exampleInputEmail1">{{ __('Master category') }} :</label>
+                                <select name="parent_id" id="parent_id" class="form-control">
+                                    @foreach ($categories as $value)
+                                    <option value="{{ $value->id }}">{{ app()->getLocale() == 'ar' ? $value->title_ar : $value->title_en }}</option>
+                                    @endforeach
+                                </select>
                             </div>
 
                             <div class="form-group col-md-6">
@@ -153,8 +171,7 @@
                                     <th class="border-bottom-0">#</th>
                                     <th class="border-bottom-0">{{ __('Image') }}</th>
                                     <th class="border-bottom-0">{{ __('Master category') }}</th>
-                                    <th class="border-bottom-0">{{ __('Title in Arabic') }}</th>
-                                    <th class="border-bottom-0">{{ __('Title in English') }}</th>
+                                    <th class="border-bottom-0">{{ __('Title') }}</th>
                                     <th class="border-bottom-0">{{ __('Status') }}</th>
                                     <th class="border-bottom-0">{{ __('Processes') }}</th>
                                 </tr>
