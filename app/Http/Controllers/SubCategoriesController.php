@@ -23,7 +23,9 @@ class SubCategoriesController extends Controller
         }
         $categories = Category::where('parent_id' , NULL)->withoutGlobalScope(ActiveScope::class)->orderBy('id' , 'desc')->get();
         if ($request->ajax()) {
-            $data = Category::where('parent_id' , '!=' , NULL)->with('category')->withoutGlobalScope(ActiveScope::class)->orderBy('id' , 'desc')->get();
+            $data = Category::when($request->parent , function($q) use($request) {
+                $q->where('parent_id' , $request->parent);
+            })->where('parent_id' , '!=' , NULL)->with('category')->withoutGlobalScope(ActiveScope::class)->orderBy('id' , 'desc')->get();
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('image', function ($row) {

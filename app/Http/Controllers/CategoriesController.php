@@ -38,8 +38,8 @@ class CategoriesController extends Controller
                     return $status;
                 })
                 ->addColumn('action', function ($row) {
-                    // $btn = '<a class="modal-effect btn btn-sm btn-secondary" style="margin: 5px" href="'. route('business.index'). '?category='. $row->id .'"><i class="las la-clipboard"></i></a>';
-                    $btn = '<button class="modal-effect btn btn-sm btn-info"  style="margin: 5px" id="showModalEditCategory" data-id="' . $row->id . '"><i class="las la-pen"></i></button>';
+                    $btn =  '<a class="modal-effect btn btn-sm btn-secondary" style="margin: 5px" href="'. route('subCategory.index'). '?parent='. $row->id .'"><i class="fab fa-joomla"></i></a>';
+                    $btn = $btn .  '<button class="modal-effect btn btn-sm btn-info"  style="margin: 5px" id="showModalEditCategory" data-id="' . $row->id . '"><i class="las la-pen"></i></button>';
                     $btn = $btn . '<button class="modal-effect btn btn-sm btn-danger" style="margin: 5px" id="showModalDeleteCategory" data-name="' . $row->title_en . '" data-id="' . $row->id . '"><i class="las la-trash"></i></button>';
                     return $btn;
                 })

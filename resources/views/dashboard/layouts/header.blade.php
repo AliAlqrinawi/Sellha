@@ -2,14 +2,14 @@
     <div class="container-fluid main-container ">
         <div class="main-header-left ">
             <div class="responsive-logo">
-                <a href="{{ url('/' . $page='index') }}"><img src="{{URL::asset('assets/img/brand/logo-light.png')}}"
+                {{-- <a href="{{ url('/' . $page='index') }}"><img src="{{URL::asset('assets/img/brand/logo-light.png')}}"
                         class="logo-1" alt="logo"></a>
                 <a href="{{ url('/' . $page='index') }}"><img src="{{URL::asset('assets/img/brand/logo-light.png')}}"
                         class="dark-logo-1" alt="logo"></a>
                 <a href="{{ url('/' . $page='index') }}"><img src="{{URL::asset('assets/img/brand/logo-light.png')}}"
                         class="logo-2" alt="logo"></a>
                 <a href="{{ url('/' . $page='index') }}"><img src="{{URL::asset('assets/img/brand/logo-light.png')}}"
-                        class="dark-logo-2" alt="logo"></a>
+                        class="dark-logo-2" alt="logo"></a> --}}
             </div>
             <div class="app-sidebar__toggle" data-bs-toggle="sidebar">
                 <a class="open-toggle" href="javascript:void(0);"><i class="header-icon fe fe-align-left" ></i></a>
@@ -23,7 +23,7 @@
             <div class="mb-0 navbar navbar-expand-lg navbar-nav-right responsive-navbar navbar-dark p-0">
                 <div class="{{ app()->getLocale() == 'en' ? 'collapse' : '' }} navbar-collapse" id="navbarSupportedContent-4">
                     <ul class="nav nav-item  navbar-nav-right ms-auto">
-                        {{-- <li class="">
+                        <li class="">
                             <div class="dropdown  nav-item countries">
                                 <a href="javascript:void(0);" class="d-flex  nav-item nav-link country-flag1" data-bs-toggle="dropdown" aria-expanded="false">
                                     <span class="avatar country-Flag me-0 align-self-center bg-transparent">
@@ -44,7 +44,7 @@
                                 @endforeach
                                 </div>
                             </div>
-                        </li> --}}
+                        </li>
                         <li class="dropdown nav-item main-layout">
                             <a class="new nav-link theme-layout nav-link-bg layout-setting" >
                                 <span class="dark-layout"><svg xmlns="http://www.w3.org/2000/svg" class="header-icon-svgs" width="24" height="24" viewBox="0 0 24 24"><path d="M20.742 13.045a8.088 8.088 0 0 1-2.077.271c-2.135 0-4.14-.83-5.646-2.336a8.025 8.025 0 0 1-2.064-7.723A1 1 0 0 0 9.73 2.034a10.014 10.014 0 0 0-4.489 2.582c-3.898 3.898-3.898 10.243 0 14.143a9.937 9.937 0 0 0 7.072 2.93 9.93 9.93 0 0 0 7.07-2.929 10.007 10.007 0 0 0 2.583-4.491 1.001 1.001 0 0 0-1.224-1.224zm-2.772 4.301a7.947 7.947 0 0 1-5.656 2.343 7.953 7.953 0 0 1-5.658-2.344c-3.118-3.119-3.118-8.195 0-11.314a7.923 7.923 0 0 1 2.06-1.483 10.027 10.027 0 0 0 2.89 7.848 9.972 9.972 0 0 0 7.848 2.891 8.036 8.036 0 0 1-1.484 2.059z"/></svg></span>

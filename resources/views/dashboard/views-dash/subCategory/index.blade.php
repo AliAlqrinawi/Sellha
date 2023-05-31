@@ -42,7 +42,7 @@
                                 <label for="exampleInputEmail1">{{ __('Master category') }} :</label>
                                 <select name="parent_id" class="form-control">
                                     @foreach ($categories as $value)
-                                    <option value="{{ $value->id }}">{{ app()->getLocale() == 'ar' ? $value->title_ar : $value->title_en }}</option>
+                                    <option value="{{ $value->id }}" @selected($value->id == request()->category)>{{ app()->getLocale() == 'ar' ? $value->title_ar : $value->title_en }}</option>
                                     @endforeach
                                 </select>
                             </div>

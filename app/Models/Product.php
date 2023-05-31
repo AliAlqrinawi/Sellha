@@ -13,11 +13,16 @@ class Product extends Model
     use HasFactory;
 
     protected $fillable = ['title_ar' , 'title_en' , 'file' , 'price' , 'discount' , 'is_sale' , 'description_ar'
-    , 'description_en' , 'lat' , 'lng' , 'type' , 'category_id' , 'sub_category_id' , 'user_id'];
+    , 'description_en' , 'lat' , 'lng' , 'views' , 'is_sale' , 'type' , 'status' , 'show' , 'category_id' , 'sub_category_id' , 'user_id'];
 
     protected static function booted()
     {
         static::addGlobalScope(new ActiveScope);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 
     public function category()
@@ -48,5 +53,14 @@ class Product extends Model
     public function order()
     {
         return $this->hasOne(Order::class , 'product_id' , 'id');
+    }
+
+    public function scopeChangeStatus()
+    {
+        if($this->status == "ACTIVE"){
+            $this->update(['status' => 'INACTIVE']);
+        }else{
+            $this->update(['status' => 'ACTIVE']);
+        }
     }
 }

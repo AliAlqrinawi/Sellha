@@ -18,6 +18,15 @@ class SettingsController extends Controller
         return view('dashboard.views-dash.setting.index',compact('settings'));
     }
 
+    public function social()
+    {
+        if (!Gate::allows('setting-view')) {
+            abort(500);
+        }
+        $settings=Setting::where('group','social')->orderBy('id')->get();
+        return view('dashboard.views-dash.setting.social',compact('settings'));
+    }
+
     public function update(Request $request)
     {
         $data = $request->except(['_token' , '_method']);
