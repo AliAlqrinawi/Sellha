@@ -35,7 +35,8 @@ class UsersController extends Controller
                     return $status;
                 })
                 ->addColumn('action', function ($row) {
-                    $btn = '<button class="modal-effect btn btn-sm btn-info"  style="margin: 5px" id="showModalEditUser" data-id="' . $row->id . '"><i class="las la-pen"></i></button>';
+                    $btn = '<a href="'. route('profile.show1' , $row->id ) .'" class="modal-effect btn btn-sm btn-secondary"  style="margin: 5px"><i class="fa fa-address-book"></i></a>';
+                    $btn = $btn . '<button class="modal-effect btn btn-sm btn-info"  style="margin: 5px" id="showModalEditUser" data-id="' . $row->id . '"><i class="las la-pen"></i></button>';
                     $btn = $btn . '<button class="modal-effect btn btn-sm btn-danger" style="margin: 5px" id="showModalDeleteUser" data-name="' . $row->name . '" data-id="' . $row->id . '"><i class="las la-trash"></i></button>';
                     return $btn;
                 })

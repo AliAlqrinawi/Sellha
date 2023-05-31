@@ -5,6 +5,10 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\MessageBag;
+use Illuminate\Validation\Rule;
 
 class LoginController extends Controller
 {
@@ -36,5 +40,20 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+    }
+
+    public function login(Request $request)
+    {
+        $credentials = $request->only('email', 'password');
+        $credentials =  $this->validate($request, [
+            'email' => ['required', Rule::exists('users', 'email')->where('type', 'ADMIN')->where('status', 'ACTIVE')],
+            'password' => ['required'],
+        ]);
+
+        if (Auth::attempt($credentials)) {
+            return redirect($this->redirectTo);
+        }
+        $errors = new MessageBag(['password' => ['الرجاء التأكد من البيانات المدخلة']]);
+        return redirect()->back()->withErrors($errors);
     }
 }

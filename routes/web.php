@@ -4,6 +4,7 @@ use App\Http\Controllers\AdsController;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\ControlPanelUsersController;
 use App\Http\Controllers\DenouncementsController;
+use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SettingsController;
@@ -30,7 +31,7 @@ Route::get('test' , function(){
 
 Route::prefix(LaravelLocalization::setLocale())->middleware(['auth' , 'localization'])->get('/', function (User $user) {
     return view('dashboard.dashboard');
-});
+})->name('home');
 Auth::routes();
 
 Route::group([
@@ -45,11 +46,14 @@ Route::group([
     Route::put('status/subCategory/{id}', [SubCategoriesController::class , 'status']);
     Route::resource('user' , UsersController::class);
     Route::put('status/user/{id}', [UsersController::class , 'status']);
-    Route::get('profile/{id}', [ProfileController::class , 'show']);
+    Route::get('profile/{id}', [ProfileController::class , 'show'])->name('profile.show1');
     Route::put('profile/{id}', [ProfileController::class , 'update'])->name('profile.update1');
     Route::resource('setting', SettingsController::class)->only(['index' , 'update']);
+    Route::get('setting/social', [SettingsController::class , 'social'])->name('setting.social');
     Route::resource('denouncement', DenouncementsController::class)->only(['index' , 'destroy']);
     Route::resource('role' , RoleController::class);
     Route::resource('admin' , ControlPanelUsersController::class);
     Route::put('status/admin/{id}', [ControlPanelUsersController::class , 'status']);
+    Route::resource('product' , ProductsController::class);
+    Route::put('status/product/{id}', [ProductsController::class , 'status']);
 });

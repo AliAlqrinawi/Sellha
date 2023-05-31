@@ -7,8 +7,6 @@
 @stop
 
 @section('content')
-
-
     @include('dashboard.views-dash.role.model-from')
     <div class="row">
         <div class="col-xl-12 col-md-12">

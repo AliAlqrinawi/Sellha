@@ -42,7 +42,7 @@
                             </tr>
                             @foreach (config('permission') as $permissions => $label)
                                 <tr>
-                                    <th scope="row">{{ $permissions }}</th>
+                                    <th scope="row">{{ __($permissions) }}</th>
                                     @foreach ($label as $q)
                                         <td>
                                             <div class="main-toggle-group-demo">

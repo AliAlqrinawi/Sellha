@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('discount')->nullable();
             $table->text('description_ar');
             $table->text('description_en');
-            $table->string('views')->nullable();
+            $table->unsignedInteger('views')->default(0);
             $table->double('lat');
             $table->double('lng');
             $table->boolean('is_sale')->default(0);
