@@ -25,11 +25,43 @@ function run(f = []) {
     }
 }
 
-var Permissions = ['role-view', 'role-create', 'role-update', 'role-delete'
+var admins = ['admin-view', 'admin-create', 'admin-update', 'admin-delete'
+];
+
+var permissions = ['role-view', 'role-create', 'role-update', 'role-delete'
+];
+
+var users = ['user-view', 'user-create', 'user-update', 'user-delete'
+];
+
+var ads = ['ad-view', 'ad-create', 'ad-update', 'ad-delete'
+];
+
+var categories = ['category-view', 'category-create', 'category-update', 'category-delete'
+];
+
+var subCategories = ['subCategory-view', 'subCategory-create', 'subCategory-update', 'subCategory-delete'
+];
+
+var products = ['product-view', 'product-create', 'product-update', 'product-delete'
+];
+
+var denouncements = ['denouncement-view', 'denouncement-create', 'denouncement-update', 'denouncement-delete'
+];
+
+var setting = ['setting-view', 'setting-create', 'setting-update', 'setting-delete'
 ];
 
 var roles = [
     'role-all', 'role-view', 'role-create', 'role-update', 'role-delete',
+    'admin-all', 'admin-view', 'admin-create', 'admin-update', 'admin-delete',
+    'user-all', 'user-view', 'user-create', 'user-update', 'user-delete',
+    'ad-all', 'ad-view', 'ad-create', 'ad-update', 'ad-delete',
+    'category-all', 'category-view', 'category-create', 'category-update', 'category-delete',
+    'subCategory-all', 'subCategory-view', 'subCategory-create', 'subCategory-update', 'subCategory-delete',
+    'product-all', 'product-view', 'product-create', 'product-update', 'product-delete',
+    'denouncement-all', 'denouncement-view', 'denouncement-create', 'denouncement-update', 'denouncement-delete',
+    'setting-all', 'setting-view', 'setting-create', 'setting-update', 'setting-delete',
 ];
 
 function all(all, arr = []) {
@@ -56,7 +88,15 @@ function all(all, arr = []) {
     });
 }
 
-all('role-all', Permissions);
+all('admin-all', admins);
+all('role-all', permissions);
+all('user-all', users);
+all('ad-all', ads);
+all('category-all', categories);
+all('subCategory-all', subCategories);
+all('product-all', products);
+all('denouncement-all', denouncements);
+all('setting-all', setting);
 
 $('#allh').click(function(e) {
     e.preventDefault();

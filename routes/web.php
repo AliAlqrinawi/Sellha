@@ -4,6 +4,7 @@ use App\Http\Controllers\AdsController;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\ControlPanelUsersController;
 use App\Http\Controllers\DenouncementsController;
+use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
@@ -56,4 +57,6 @@ Route::group([
     Route::put('status/admin/{id}', [ControlPanelUsersController::class , 'status']);
     Route::resource('product' , ProductsController::class);
     Route::put('status/product/{id}', [ProductsController::class , 'status']);
+    Route::resource('order' , OrdersController::class);
+    Route::put('status/order/{id}', [OrdersController::class , 'status']);
 });

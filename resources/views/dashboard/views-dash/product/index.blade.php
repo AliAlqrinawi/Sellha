@@ -5,6 +5,23 @@
     <link href="{{ asset('assets/scss/plugins/dataTables.bootstrap5.scss') }}" rel="stylesheet" />
     <link href="{{ asset('assets/scss/plugins/buttons.bootstrap5.scss') }}" rel="stylesheet">
     <link href="{{ asset('assets/scss/plugins/responsive.bootstrap5.scss') }}" rel="stylesheet" />
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <!-- Make sure you put this AFTER Leaflet's CSS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-color-markers/dist/css/leaflet-color-markers.css" />
+    <script src="https://unpkg.com/leaflet-color-markers/dist/leaflet-color-markers.js"></script>
+
+    <style>
+        #map {
+            height: 300px;
+        }
+    </style>
 @stop
 
 @section('content')
@@ -23,37 +40,85 @@
                         data-bs-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body">
-                    <div class="row" style="padding: 12px;">
-                        <div class="col-md-6" style="color: blue; font-weight: bold;">{{ __('Discount') }}</div>
+                    <div class="row"
+                        style="border-style: groove; border-width: 1px; text-align: center; padding-top: 10px;">
+                        <div class="col-md-6">
+                            <h6 class="text-primary">{{ __('Discount') }}</h6>
+                        </div>
                         <div class="col-md-6" id="discount"></div>
-                      </div>
-                      <div class="row" style="padding: 12px;">
-                        <div class="col-md-6" style="color: blue; font-weight: bold;">{{ __('Description') }}</div>
-                        <div class="col-md-6" id="description"></div>
-                      </div>
-                      <div class="row" style="padding: 12px;">
-                        <div class="col-md-6" style="color: blue; font-weight: bold;">{{ __('Is Sale') }}</div>
+                    </div>
+                    <br>
+                    <div class="row"
+                        style="border-style: groove; border-width: 1px; text-align: center; padding-top: 10px;">
+                        <div class="col-md-6">
+                            <h6 class="text-primary">{{ __('Is Sale') }}</h6>
+                        </div>
                         <div class="col-md-6" id="is_sale"></div>
-                      </div>
-                      <div class="row" style="padding: 12px;">
-                        <div class="col-md-6" style="color: blue; font-weight: bold;">{{ __('Display Area') }}</div>
+                    </div>
+                    <br>
+                    <div class="row"
+                        style="border-style: groove; border-width: 1px; text-align: center; padding-top: 10px;">
+                        <div class="col-md-6">
+                            <h6 class="text-primary">{{ __('Display Area') }}</h6>
+                        </div>
                         <div class="col-md-6" id="show"></div>
-                      </div>
-                      <div class="row" style="padding: 12px;">
-                        <div class="col-md-6" style="color: blue; font-weight: bold;">{{ __('Type') }}</div>
+                    </div>
+                    <br>
+                    <div class="row"
+                        style="border-style: groove; border-width: 1px; text-align: center; padding-top: 10px;">
+                        <div class="col-md-6">
+                            <h6 class="text-primary">{{ __('Type') }}</h6>
+                        </div>
                         <div class="col-md-6" id="type"></div>
-                      </div>
-                      <div class="row" style="padding: 12px;">
-                        <div class="col-md-6" style="color: blue; font-weight: bold;">{{ __('Category') }}</div>
+                    </div>
+                    <br>
+                    <div class="row"
+                        style="border-style: groove; border-width: 1px; text-align: center; padding-top: 10px;">
+                        <div class="col-md-6">
+                            <h6 class="text-primary">{{ __('Category') }}</h6>
+                        </div>
                         <div class="col-md-6" id="category"></div>
-                      </div>
-                      <div class="row" style="padding: 12px;">
-                        <div class="col-md-6" style="color: blue; font-weight: bold;">{{ __('Sub Category') }}</div>
+                    </div>
+                    <br>
+                    <div class="row"
+                        style="border-style: groove; border-width: 1px; text-align: center; padding-top: 10px;">
+                        <div class="col-md-6">
+                            <h6 class="text-primary">{{ __('Sub Category') }}</h6>
+                        </div>
                         <div class="col-md-6" id="sub_category"></div>
-                      </div>
+                    </div>
+                    <br>
+                    <div class="row"
+                        style="border-style: groove; border-width: 1px; text-align: center; padding-top: 10px;">
+                        <div class="col-md-12">
+                            <h6 class="text-primary">{{ __('Description') }}</h6>
+                        </div>
+                    </div>
+                    <div class="row"
+                    style="text-align: center; padding-top: 10px;">
+                    <div class="col-md-12">
+                        <div>
+                            <textarea id="description" class="form-control col-md-12" rows="3" disabled=""></textarea>
+                        </div>
+                    </div>
+                </div>
+                    <br>
+                    <div class="row"
+                        style="border-style: groove; border-width: 1px; text-align: center; padding-top: 10px;">
+                        <div class="col-md-12">
+                            <h6 class="text-primary">Location</h6>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div id="map"></div>
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn ripple btn-primary" data-bs-dismiss="modal" type="button">{{ __('Done') }}</button>
+                    <button class="btn ripple btn-primary" data-bs-dismiss="modal"
+                        type="button">{{ __('Done') }}</button>
                 </div>
             </div>
         </div>
@@ -87,8 +152,8 @@
                 <div class="card-header pb-0">
                     <div class="row row-xs wd-xl-80p">
                         <div class="col-sm-6 col-md-3 mg-t-10">
-                            <a href="{{ route('product.create') }}" class="btn btn-info-gradient btn-block" id="ShowModalProduct"
-                                style="font-weight: bold; color: beige;">{{ __('Addition') }}
+                            <a href="{{ route('product.create') }}" class="btn btn-info-gradient btn-block"
+                                id="ShowModalProduct" style="font-weight: bold; color: beige;">{{ __('Addition') }}
                             </a>
                         </div>
                     </div>
@@ -137,4 +202,11 @@
     <script src="{{ asset('dashboard/js/advanced-form-elements.js') }}"></script>
     <script src="{{ asset('dashboard/js/select2.js') }}"></script>
     <script src="{{ asset('dashboard/local/product.js') }}"></script>
+    <script>
+        var map = L.map('map').setView([23.8859, 45.0792], 3);
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        }).addTo(map);
+    </script>
 @stop
