@@ -31,6 +31,9 @@ var admins = ['admin-view', 'admin-create', 'admin-update', 'admin-delete'
 var permissions = ['role-view', 'role-create', 'role-update', 'role-delete'
 ];
 
+var orders = ['order-view', 'order-create', 'order-update', 'order-delete'
+];
+
 var users = ['user-view', 'user-create', 'user-update', 'user-delete'
 ];
 
@@ -54,6 +57,7 @@ var setting = ['setting-view', 'setting-create', 'setting-update', 'setting-dele
 
 var roles = [
     'role-all', 'role-view', 'role-create', 'role-update', 'role-delete',
+    'order-all', 'order-view', 'order-create', 'order-update', 'order-delete',
     'admin-all', 'admin-view', 'admin-create', 'admin-update', 'admin-delete',
     'user-all', 'user-view', 'user-create', 'user-update', 'user-delete',
     'ad-all', 'ad-view', 'ad-create', 'ad-update', 'ad-delete',
@@ -89,6 +93,7 @@ function all(all, arr = []) {
 }
 
 all('admin-all', admins);
+all('order-all', orders);
 all('role-all', permissions);
 all('user-all', users);
 all('ad-all', ads);
