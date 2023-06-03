@@ -1,17 +1,7 @@
 @extends('dashboard.layouts.master')
+@section('title', __('Edit Profile'))
 @section('css')
-    <!-- Internal Nice-select css  -->
     <link href="{{ URL::asset('assets/plugins/jquery-nice-select/css/nice-select.css') }}" rel="stylesheet" />
-@endsection
-@section('page-header')
-    <div class="breadcrumb-header justify-content-between">
-        <div class="my-auto">
-            <div class="d-flex">
-                <h4 class="content-title mb-0 my-auto"> Dashboard </h4>
-                <span class="text-muted mt-1 tx-13 mr-2 mb-0"> / Change Profile</span>
-            </div>
-        </div>
-    </div>
 @endsection
 @section('content')
     <!-- row -->
@@ -40,14 +30,14 @@
                             <input type="hidden" name="id" value="{{ $user->id }}">
                             <div class="row mg-b-20">
                                 <div class="parsley-input col-md-6" id="fnWrapper">
-                                    <label>Name : <span class="tx-danger">*</span></label>
+                                    <label>{{ __('Name') }} : <span class="tx-danger">*</span></label>
                                     <input class="form-control form-control-md mg-b-20"
                                         data-parsley-class-handler="#lnWrapper" value="{{ $user->name }}" name="name"
                                         required="" type="text">
                                 </div>
 
                                 <div class="parsley-input col-md-6 mg-t-20 mg-md-t-0" id="lnWrapper">
-                                    <label>E-mail : <span class="tx-danger">*</span></label>
+                                    <label>{{ __('Email') }} : <span class="tx-danger">*</span></label>
                                     <input class="form-control form-control-md mg-b-20"
                                         data-parsley-class-handler="#lnWrapper" value="{{ $user->email }}" name="email"
                                         required="" type="email">
@@ -58,9 +48,9 @@
                         </div>
                         <div class="mg-t-30">
                             <button class="btn btn-main-primary pd-x-20"
-                                type="submit">Update</button>
+                                type="submit">{{ __('Update') }}</button>
                             <a class="btn btn-secondary" data-effect="effect-scale" style="font-weight: bold; color: beige;"
-                                href="{{ url('/admin/home') }}">Close</a>
+                                href="{{ route('home') }}">{{ __("Close") }}</a>
                         </div>
                     </form>
                 </div>
@@ -68,7 +58,7 @@
         </div>
     </div>
 @endsection
-@section('js')
+@section('script')
     <!-- Internal Nice-select js-->
     <script src="{{ URL::asset('assets/plugins/jquery-nice-select/js/jquery.nice-select.js') }}"></script>
     <script src="{{ URL::asset('assets/plugins/jquery-nice-select/js/nice-select.js') }}"></script>

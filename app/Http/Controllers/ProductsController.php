@@ -35,7 +35,7 @@ class ProductsController extends Controller
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('file', function ($row) {
-                    $image = '<img src="' . asset('/') . $row->file . '" alt="file" width="50" height="50">';
+                    $image = '<img src="' .  $row->file . '" alt="file" width="50" height="50">';
                     return $image;
                 })
                 ->addColumn('status', function ($row) {
@@ -47,7 +47,7 @@ class ProductsController extends Controller
                     return $status;
                 })
                 ->addColumn('action', function ($row) {
-                    $btn = '<button class="modal-effect btn btn-sm btn-success" style="margin: 5px" id="showModalProduct" data-id="' . $row->id . '" ><i class=" icon-check"></i></button>';
+                    $btn = '<button class="modal-effect btn btn-sm btn-secondary" style="margin: 5px" id="showModalProduct" data-id="' . $row->id . '" ><i class="fab fa-viadeo"></i></button>';
                     $btn = $btn . '<a href="'.route('product.edit' , $row->id).'" class="modal-effect btn btn-sm btn-info"  style="margin: 5px"><i class="las la-pen"></i></a>';
                     $btn = $btn . '<button class="modal-effect btn btn-sm btn-danger" style="margin: 5px" id="showModalDeleteProduct" data-name="' . $row->title_en . '" data-id="' . $row->id . '"><i class="las la-trash"></i></button>';
                     return $btn;

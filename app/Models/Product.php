@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Request;
 
 class Product extends Model
 {
@@ -53,6 +54,11 @@ class Product extends Model
     public function order()
     {
         return $this->hasOne(Order::class , 'product_id' , 'id');
+    }
+
+    public function getFileAttribute()
+    {
+        return Request::root('/') . '/' . $this->attributes['file'];
     }
 
     public function scopeChangeStatus()

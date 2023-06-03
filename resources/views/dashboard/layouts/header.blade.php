@@ -80,12 +80,11 @@
                                         </div>
                                     </div>
                                 </div>
-                                <a class="dropdown-item" href="editprofile.html"><i class="bx bx-cog"></i> Edit Profile</a>
-                                <a class="dropdown-item" href="chat.html"><i class="bx bx-envelope"></i>Messages</a>
-                                <a class="dropdown-item" href="editprofile.html"><i class="bx bx-slider-alt"></i> Account Settings</a>
+                                <a class="dropdown-item" href="{{ route('admin.edit1') }}"><i class="bx bx-cog"></i>{{ __('Edit Profile') }}</a>
+                                <a class="dropdown-item" href="{{ route('admin.resetPassword1') }}"><i class="bx bx-slider-alt"></i>{{ __('Account Settings') }}</a>
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST">
                                     @csrf
-                                <button type="submit" class="dropdown-item"><i class="bx bx-log-out"></i> Sign Out</button>
+                                <button type="submit" class="dropdown-item"><i class="bx bx-log-out"></i>{{ __('Sign Out') }}</button>
                                 </form>
                             </div>
                         </li>
