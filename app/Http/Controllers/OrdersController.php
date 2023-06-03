@@ -11,6 +11,9 @@ class OrdersController extends Controller
 {
     public function index(Request $request)
     {
+        if (!Gate::allows('order-view')) {
+            abort(500);
+        }
         if ($request->ajax()) {
             $data = Order::with('buyer', 'seller', 'product')->orderBy('id', 'desc')->get();
             return DataTables::of($data)
@@ -51,6 +54,22 @@ class OrdersController extends Controller
                 ->rawColumns(['status' => 'status', 'payment_status' => 'payment_status', 'action' => 'action'])->make(true);
         }
         return view('dashboard.views-dash.order.index');
+    }
+
+    public function show(Request $request , $id)
+    {
+        $order = Order::with('buyer', 'seller', 'product.category' , 'product.sub_category')->find($id);
+        if ($order) {
+            return ControllersService::responseSuccess([
+                'message' => __('Found Data'),
+                'status' => 200,
+                'data' => $order
+            ]);
+        }
+        return ControllersService::responseErorr([
+            'message' => __('Not Found Data'),
+            'status' => 400,
+        ]);
     }
 
     public function destroy($id)

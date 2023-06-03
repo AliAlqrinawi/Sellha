@@ -35,7 +35,7 @@ class ProductsController extends Controller
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('file', function ($row) {
-                    $image = '<img src="' . asset('/') . $row->file . '" alt="file" width="50" height="50">';
+                    $image = '<img src="' .  $row->file . '" alt="file" width="50" height="50">';
                     return $image;
                 })
                 ->addColumn('status', function ($row) {

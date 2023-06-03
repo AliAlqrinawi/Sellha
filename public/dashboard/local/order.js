@@ -92,3 +92,42 @@ $(document).on('click', '#status', function (e) {
         }
     });
 });
+
+let showUrl = new URL('admin/order', host.origin);
+$(document).on('click', '#showModalOrder', function (e) {
+    e.preventDefault();
+    var id = $(this).data('id');
+    $.ajax({
+        type: 'GET',
+        url: showUrl + '/' + id,
+        data: "",
+        success: function (response) {
+            if (response.status == 404) {
+                $('#error_message').html("");
+                $('#error_message').addClass("alert alert-danger");
+                $('#error_message').text(response.message);
+            } else {
+                L.marker([response.data.product.lat, response.data.product.lng]).addTo(map);
+                $('#image').html('<img src='+ response.data.product.file +' style="width: 30px; height: 30px;">');
+                $('#name').text(response.data.product.title_ar);
+                $('#product_owner').text(response.data.seller.name);
+                $('#price').text(response.data.product.price);
+                $('#discount').text(response.data.product.discount);
+                $('#views').text(response.data.product.views);
+                $('#status').text(response.data.product.status);
+                $('#show').text(response.data.product.show);
+                $('#category').text(response.data.product.category.title_ar);
+                $('#sub_category').text(response.data.product.sub_category.title_ar);
+
+                $('#name_buyer').text(response.data.buyer.name);
+                $('#phone_buyer').text(response.data.buyer.phone);
+                $('#Status_buyer').text(response.data.buyer.status);
+
+                $('#name_seller').text(response.data.seller.name);
+                $('#phone_seller').text(response.data.seller.phone);
+                $('#Status_seller').text(response.data.seller.status);
+            }
+        }
+    });
+    $('#showModalOrder1').modal('show');
+});

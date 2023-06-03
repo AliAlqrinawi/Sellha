@@ -9,18 +9,13 @@
             <div class="card overflow-hidden sales-card bg-primary-gradient">
                 <div class="px-3 pt-3  pb-2 pt-0">
                     <div class="">
-                        <h6 class="mb-3 tx-12 text-white">TODAY ORDERS</h6>
+                        <h6 class="mb-3 tx-12 text-white">{{ __('USERS COUNT') }}</h6>
                     </div>
                     <div class="pb-0 mt-0">
                         <div class="d-flex">
                             <div class="">
-                                <h4 class="tx-20 fw-bold mb-1 text-white">$5,74.12</h4>
-                                <p class="mb-0 tx-12 text-white op-7">Compared to last week</p>
+                                <h4 class="tx-20 fw-bold mb-1 text-white">{{ App\Models\User::count() }}</h4>
                             </div>
-                            <span class="float-end my-auto ms-auto">
-                                <i class="fas fa-arrow-circle-up text-white"></i>
-                                <span class="text-white op-7"> +427</span>
-                            </span>
                         </div>
                     </div>
                 </div>
@@ -31,18 +26,13 @@
             <div class="card overflow-hidden sales-card bg-danger-gradient">
                 <div class="px-3 pt-3  pb-2 pt-0">
                     <div class="">
-                        <h6 class="mb-3 tx-12 text-white">TODAY EARNINGS</h6>
+                        <h6 class="mb-3 tx-12 text-white">{{ __('ORDERS COUNT') }}</h6>
                     </div>
                     <div class="pb-0 mt-0">
                         <div class="d-flex">
                             <div class="">
-                                <h4 class="tx-20 fw-bold mb-1 text-white">$1,230.17</h4>
-                                <p class="mb-0 tx-12 text-white op-7">Compared to last week</p>
+                                <h4 class="tx-20 fw-bold mb-1 text-white">{{ App\Models\Order::count() }}</h4>
                             </div>
-                            <span class="float-end my-auto ms-auto">
-                                <i class="fas fa-arrow-circle-down text-white"></i>
-                                <span class="text-white op-7"> -23.09%</span>
-                            </span>
                         </div>
                     </div>
                 </div>
@@ -53,18 +43,13 @@
             <div class="card overflow-hidden sales-card bg-success-gradient">
                 <div class="px-3 pt-3  pb-2 pt-0">
                     <div class="">
-                        <h6 class="mb-3 tx-12 text-white">TOTAL EARNINGS</h6>
+                        <h6 class="mb-3 tx-12 text-white">{{ __('PRODUCTS COUNT') }}</h6>
                     </div>
                     <div class="pb-0 mt-0">
                         <div class="d-flex">
                             <div class="">
-                                <h4 class="tx-20 fw-bold mb-1 text-white">$7,125.70</h4>
-                                <p class="mb-0 tx-12 text-white op-7">Compared to last week</p>
+                                <h4 class="tx-20 fw-bold mb-1 text-white">{{ App\Models\Product::count() }}</h4>
                             </div>
-                            <span class="float-end my-auto ms-auto">
-                                <i class="fas fa-arrow-circle-up text-white"></i>
-                                <span class="text-white op-7"> 52.09%</span>
-                            </span>
                         </div>
                     </div>
                 </div>
@@ -75,18 +60,13 @@
             <div class="card overflow-hidden sales-card bg-warning-gradient">
                 <div class="px-3 pt-3  pb-2 pt-0">
                     <div class="">
-                        <h6 class="mb-3 tx-12 text-white">PRODUCT SOLD</h6>
+                        <h6 class="mb-3 tx-12 text-white">{{ __('PRODUCT SOLD') }}</h6>
                     </div>
                     <div class="pb-0 mt-0">
                         <div class="d-flex">
                             <div class="">
-                                <h4 class="tx-20 fw-bold mb-1 text-white">$4,820.50</h4>
-                                <p class="mb-0 tx-12 text-white op-7">Compared to last week</p>
+                                <h4 class="tx-20 fw-bold mb-1 text-white">{{ App\Models\Order::sum('total') }}</h4>
                             </div>
-                            <span class="float-end my-auto ms-auto">
-                                <i class="fas fa-arrow-circle-down text-white"></i>
-                                <span class="text-white op-7"> -152.3</span>
-                            </span>
                         </div>
                     </div>
                 </div>
@@ -94,8 +74,93 @@
             </div>
         </div>
     </div>
+    <div class="row row-sm">
+        <div class="col-lg-12 col-md-12">
+            <div class="card mg-b-20">
+                <div class="card-body">
+                    <div class="main-content-label mg-b-5">
+                        {{ __('Scheme of requests and users') }}
+                    </div>
+                    <p class="mg-b-20">{{ __('The number of requests and users that were completed within a week...') }}</p>
+                    <div id="echart2" class="ht-400"></div>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 @section('script')
     <!--Internal Sparkline js -->
     <script src="{{ asset('dashboard/plugins/jquery-sparkline/jquery.sparkline.min.js') }}"></script>
+    <!--Internal Echart Plugin -->
+    <script src="{{ asset('dashboard/plugins/echart/echart.js') }}"></script>
+    <script src="{{ asset('dashboard/js/echarts.js') }}"></script>
+    <script>
+        var chartdata2 = [{
+            name: 'Users',
+            type: 'line',
+            smooth: true,
+            data: @json($users),
+            color: ['#285cf7']
+        }, {
+            name: 'Orders',
+            type: 'line',
+            smooth: true,
+            size: 10,
+            data: @json($orders),
+            color: ['#f7557a']
+        }];
+        var chart2 = document.getElementById('echart2');
+        var barChart2 = echarts.init(chart2);
+        var option2 = {
+            grid: {
+                top: '6',
+                right: '0',
+                bottom: '17',
+                left: '25',
+            },
+            xAxis: {
+                data: @json($date),
+                splitLine: {
+                    lineStyle: {
+                        color: 'rgba(171, 167, 167,0.2)'
+                    }
+                },
+                axisLine: {
+                    lineStyle: {
+                        color: 'rgba(171, 167, 167,0.2)'
+                    }
+                },
+                axisLabel: {
+                    fontSize: 10,
+                    color: '#5f6d7a'
+                }
+            },
+            tooltip: {
+                trigger: 'axis',
+                position: ['35%', '32%'],
+            },
+            yAxis: {
+                splitLine: {
+                    lineStyle: {
+                        color: 'rgba(171, 167, 167,0.2)'
+                    }
+                },
+                axisLine: {
+                    lineStyle: {
+                        color: 'rgba(171, 167, 167,0.2)'
+                    }
+                },
+                axisLabel: {
+                    fontSize: 10,
+                    color: '#5f6d7a'
+                }
+            },
+            series: chartdata2,
+            color: ['#285cf7', '#f7557a']
+        };
+        barChart2.setOption(option2);
+        window.addEventListener('resize', function() {
+            barChart2.resize();
+        })
+    </script>
 @stop

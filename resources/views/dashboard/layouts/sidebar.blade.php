@@ -56,6 +56,14 @@
                             <span class="side-menu__label">{{ __('Roles') }}</span></a>
                     </li>
                 @endcan
+                    @can('order-view')
+                    <li class="slide">
+                        <a class="side-menu__item" href="{{ route('order.index') }}">
+                            <img class="side-menu__icon mCS_img_loaded" src="https://img.icons8.com/?size=512&id=44039&format=png"
+                                style=" width: 30px; height: 30px;">
+                            <span class="side-menu__label">{{ __('Orders') }}</span></a>
+                    </li>
+                @endcan
                 @can('user-view')
                     <li class="slide">
                         <a class="side-menu__item" href="{{ route('user.index') }}">

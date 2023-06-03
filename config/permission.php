@@ -2,6 +2,7 @@
 return [
     'Admins' => ['admin-all' , 'admin-view' , 'admin-create' , 'admin-update' , 'admin-delete'],
     'Permissions' => ['role-all' , 'role-view' , 'role-create' , 'role-update' , 'role-delete'],
+    'Orders' => ['order-all' , 'order-view' , 'order-create' , 'order-update' , 'order-delete'],
     'Users' => ['user-all' , 'user-view' , 'user-create' , 'user-update' , 'user-delete'],
     'Ads' => ['ad-all' , 'ad-view' , 'ad-create' , 'ad-update' , 'ad-delete'],
     'Categories' => ['category-all' , 'category-view' , 'category-create' , 'category-update' , 'category-delete'],
