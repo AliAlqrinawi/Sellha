@@ -88,7 +88,7 @@ class ProductsController extends Controller
             'file' => 'required|image',
             'files' => 'nullable',
             'type' => 'required|in:NEW,LIKENEW,GOOD,NOTSODUSTY,OLD',
-            'show' => 'required|in:BEST-DEALS,NEW-ARRIVALS,MOST-WANTED,DEALS-OF-THE-WEEK',
+            'show' => 'nullable|in:BEST-DEALS,NEW-ARRIVALS,MOST-WANTED,DEALS-OF-THE-WEEK',
             'category_id' => 'required|integer|exists:categories,id',
             'sub_category_id' => 'required|integer|exists:categories,id',
         ]);

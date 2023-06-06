@@ -25,7 +25,7 @@ class HomeController extends Controller
 
         $productsBestDeals = Product::with('category' , 'sub_category' , 'favorite')->where(['status' => 'ACTIVE' , 'show' => 'BEST-DEALS'])->orderBy('id' , 'desc')->get();
 
-        $products = Product::with('category' , 'favorite')->where(['status' => 'ACTIVE' , 'show' => null])->orderBy('id' , 'desc')->get();
+        $products = Product::with('category' , 'sub_category' , 'favorite')->where(['status' => 'ACTIVE' , 'show' => null])->orderBy('id' , 'desc')->get();
 
         $data = [
             'ads' => $ads,

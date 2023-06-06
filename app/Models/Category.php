@@ -20,7 +20,7 @@ class Category extends Model
 
     public function sub_category()
     {
-        return $this->belongsTo(Category::class , 'parent_id' , 'id');
+        return $this->hasMany(Category::class , 'parent_id' , 'id');
     }
 
     public function category()

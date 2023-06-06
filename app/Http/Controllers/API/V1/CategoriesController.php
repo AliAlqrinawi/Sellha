@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API\V1;
 
+use App\Helpers\Messages;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CategoryCollection;
 use App\Models\Category;
@@ -16,12 +17,12 @@ class CategoriesController extends Controller
      */
     public function __invoke(Request $request)
     {
-        $categories = Category::
-        when($request->name, function($q) use ($request) {
+        $categories = Category::when($request->parent_id, function($q) use ($request) {
+            $q->where('parent_id', $request->parent_id);
+        })->when($request->name, function($q) use ($request) {
             $q->where('title_ar', 'like', '%' . $request->name . '%')
             ->orWhere('title_en' , 'like' , '%'. $request->name . '%');
-        })
-        ->with('sub_category')->get();
-        return (new CategoryCollection($categories));
+        })->where('parent_id' , null)->with('sub_category')->get();
+        return (new CategoryCollection($categories))->additional(['code' => 200 , 'status' => true , 'message' => Messages::getMessage('operation accomplished successfully')]);
     }
 }

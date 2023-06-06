@@ -21,7 +21,7 @@ class CategoryResource extends JsonResource
             'image' => $this->image,
             'parent_id' => $this->parent_id,
             'status' => $this->status,
-            'sub_category' =>  new CategoryResource($this->whenLoaded('sub_category')),
+            'sub_category' =>  new CategoryCollection($this->whenLoaded('sub_category')),
         ];
     }
 }

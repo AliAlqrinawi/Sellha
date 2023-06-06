@@ -27,7 +27,6 @@ class ProductsController extends Controller
     public function index(Request $request)
     {
         $products = Product::
-        // filtrt($request->query())
         when($request->name, function($q) use ($request) {
             $q->where('title_ar', 'like', '%' . $request->name . '%')
             ->orWhere('title_en' , 'like' , '%'. $request->name . '%');
@@ -53,6 +52,12 @@ class ProductsController extends Controller
                 $q->whereIn('id', $ids);
             });
         })
+        ->when($request->subCategories, function($builder) use ($request) {
+            $builder->whereHas('sub_category' , function($q) use ($request){
+                $ids = json_decode($request->subCategories);
+                $q->whereIn('id', $ids);
+            });
+        })
         ->when($request->from, function($q) use ($request) {
             $q->whereBetween('price', [intval($request->form) , intval($request->to)]);
         })
@@ -72,7 +77,8 @@ class ProductsController extends Controller
                 $q->where('status' , 'COMPLETED');
             });
         })
-        ->orderBy('id' , 'desc')->with('category' , 'sub_category' , 'favorite' , 'files' , 'order')->get();
+        ->orderBy('id' , 'desc')
+        ->with('category' , 'sub_category' , 'favorite' , 'files' , 'order')->get();
         return (new ProductCollection($products));
     }
 

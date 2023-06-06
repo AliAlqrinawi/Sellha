@@ -6,6 +6,7 @@ use App\Http\Controllers\API\V1\CategoriesController;
 use App\Http\Controllers\API\V1\Chat\ChatsController;
 use App\Http\Controllers\API\V1\Chat\MessagesController;
 use App\Http\Controllers\API\V1\DenouncementsController;
+use App\Http\Controllers\API\V1\FavoritesController;
 use App\Http\Controllers\API\V1\HomeController;
 use App\Http\Controllers\API\V1\ImagesController;
 use App\Http\Controllers\API\V1\NotificationsController;
@@ -46,6 +47,8 @@ Route::middleware('setLocale')->prefix('V1')->group(function () {
         Route::resource('order', OrdersController::class);
         Route::resource('denouncement', DenouncementsController::class);
         Route::resource('notification', NotificationsController::class);
+        Route::post('favorite', [FavoritesController::class , 'store']);
+        Route::delete('favorite/{id}', [FavoritesController::class , 'destroy']);
         Route::resource('chat', ChatsController::class);
         Route::resource('message', MessagesController::class);
         Route::delete('delete/profile', [AuthController::class , 'deleteAcount']);
