@@ -3,9 +3,9 @@
 namespace App\Models;
 
 use App\Models\Scopes\ActiveScope;
-use App\Models\Scopes\GetDataByLanguage;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Request;
 
 class Category extends Model
 {
@@ -26,6 +26,11 @@ class Category extends Model
     public function category()
     {
         return $this->belongsTo(Category::class , 'parent_id' , 'id');
+    }
+
+    public function getImageAttribute()
+    {
+        return Request::root('/') . '/' . $this->attributes['image'];
     }
 
     public function scopeChangeStatus()
