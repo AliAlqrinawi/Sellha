@@ -27,58 +27,29 @@ class ProductsController extends Controller
     public function index(Request $request)
     {
         $products = Product::
-        when($request->name, function($q) use ($request) {
-            $q->where('title_ar', 'like', '%' . $request->name . '%')
-            ->orWhere('title_en' , 'like' , '%'. $request->name . '%');
-        })
-        ->when($request->type, function($q) use ($request) {
-            $q->where('type' , $request->type);
-        })
-        ->when($request->postingTime, function($q) use ($request) {
-            $weekAgo = Carbon::now()->subWeek();
-            $monthAgo = Carbon::now()->subMonth();
-            $last24Hours = Carbon::now()->subDay();
-            if($request->postingTime == '24'){
-                $q->whereBetween('created_at', [$last24Hours, Carbon::now()]);
-            }elseif($request->postingTime == 'week'){
-                $q->whereBetween('created_at', [$weekAgo, Carbon::now()]);
-            }elseif($request->postingTime == 'month'){
-                $q->whereBetween('created_at', [$monthAgo, Carbon::now()]);
+            filter([
+                'name' => $request->name,
+                'type' => $request->type,
+                'postingTime' => $request->postingTime,
+                'from' => $request->from,
+                'to' => $request->to,
+                'lat' => $request->lat,
+                'lng' => $request->lng,
+                'categories' => $request->categories,
+                'subCategories' => $request->subCategories,
+                'myFavorite' => $request->myFavorite,
+                'mySales' => $request->mySales,
+                'myProducts' => $request->myProducts,
+                'myPurchases' => $request->myPurchases,
+            ])
+            ->orderBy('id', 'desc')
+            ->with('category', 'sub_category', 'favorite', 'files', 'order')->get();
+            if($request->SortByDistance == 'closest'){
+                $products =  $this->getClosestLocations(Auth::user()->profile->lat , Auth::user()->profile->lng , 'closest');
             }
-        })
-        ->when($request->categories, function($builder) use ($request) {
-            $builder->whereHas('category' , function($q) use ($request){
-                $ids = json_decode($request->categories);
-                $q->whereIn('id', $ids);
-            });
-        })
-        ->when($request->subCategories, function($builder) use ($request) {
-            $builder->whereHas('sub_category' , function($q) use ($request){
-                $ids = json_decode($request->subCategories);
-                $q->whereIn('id', $ids);
-            });
-        })
-        ->when($request->from, function($q) use ($request) {
-            $q->whereBetween('price', [intval($request->form) , intval($request->to)]);
-        })
-        ->when($request->lat, function($q) use ($request) {
-            $q->where('lat', $request->lat);
-        })
-        ->when($request->lng, function($q) use ($request) {
-            $q->where('lng', $request->lng);
-        })
-        ->when($request->myFavorite, function($q) {
-            $q->whereHas('favorite' , function($q){
-                $q->where('user_id' , Auth::user()->id);
-            });
-        })
-        ->when($request->mySales, function($q) {
-            $q->whereHas('order' , function($q){
-                $q->where('status' , 'COMPLETED');
-            });
-        })
-        ->orderBy('id' , 'desc')
-        ->with('category' , 'sub_category' , 'favorite' , 'files' , 'order')->get();
+            if($request->SortByDistance == 'furthest'){
+                $products =  $this->getClosestLocations(Auth::user()->profile->lat , Auth::user()->profile->lng , 'furthest');
+            }
         return (new ProductCollection($products));
     }
 
@@ -88,7 +59,7 @@ class ProductsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(ProductStore $productStore , ProductStoreService $productStoreService)
+    public function store(ProductStore $productStore, ProductStoreService $productStoreService)
     {
         $data = $productStore->all();
         try {
@@ -109,9 +80,14 @@ class ProductsController extends Controller
      */
     public function show($id)
     {
-        $product= Product::with('category' , 'sub_category'
-        , 'favorite' , 'files' , 'all_favorite')->find($id);
-        return parent::success($product , Messages::getMessage('operation accomplished successfully'));
+        $product = Product::with(
+            'category',
+            'sub_category',
+            'favorite',
+            'files',
+            'all_favorite'
+        )->find($id);
+        return parent::success($product, Messages::getMessage('operation accomplished successfully'));
     }
 
     /**
@@ -121,11 +97,11 @@ class ProductsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(ProductStore $productStore, ProductUpdateService $productUpdateService , $id)
+    public function update(ProductStore $productStore, ProductUpdateService $productUpdateService, $id)
     {
         $data = $productStore->all();
         try {
-            $productUpdateService->handle($data , $id);
+            $productUpdateService->handle($data, $id);
             return ControllersService::generateProcessResponse(true, 'UPDATE_SUCCESS', 200);
         } catch (Throwable $e) {
             return response([
@@ -146,7 +122,7 @@ class ProductsController extends Controller
         return ControllersService::generateProcessResponse(true, 'DELETE_SUCCESS', 200);
     }
 
-     /**
+    /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
@@ -159,5 +135,46 @@ class ProductsController extends Controller
         $product->update();
 
         return ControllersService::generateProcessResponse(true, 'UPDATE_SUCCESS', 200);
+    }
+
+    public function getClosestLocations($targetLatitude, $targetLongitude , $distance)
+    {
+        $locations = Product::get(); // Retrieve all locations from the database
+        // Calculate distances and add them to the locations
+        foreach ($locations as $key => $location) {
+            $location->distance = $this->calculateDistance($targetLatitude, $targetLongitude, $location->lat, $location->lng);
+        }
+
+        // Sort locations based on distance
+        if($distance == 'closest'){
+            $locations = $locations->sortBy('distance');
+        }else{
+            $locations = $locations->sortByDesc('distance');
+        }
+
+        return $locations->values()->all();
+    }
+
+    function calculateDistance($latitude1, $longitude1, $latitude2, $longitude2)
+    {
+        $earthRadius = 6371; // Radius of the Earth in kilometers
+
+        // Convert latitude and longitude from degrees to radians
+        $latFrom = deg2rad($latitude1);
+        $lonFrom = deg2rad($longitude1);
+        $latTo = deg2rad($latitude2);
+        $lonTo = deg2rad($longitude2);
+
+        // Calculate the differences between the coordinates
+        $latDiff = $latTo - $latFrom;
+        $lonDiff = $lonTo - $lonFrom;
+
+        // Apply the Haversine formula
+        $a = sin($latDiff / 2) * sin($latDiff / 2) +
+            cos($latFrom) * cos($latTo) * sin($lonDiff / 2) * sin($lonDiff / 2);
+        $c = 2 * atan2(sqrt($a), sqrt(1 - $a));
+        $distance = $earthRadius * $c;
+
+        return $distance;
     }
 }
