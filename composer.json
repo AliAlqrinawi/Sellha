@@ -10,6 +10,7 @@
         "laravel-notification-channels/fcm": "*",
         "laravel/framework": "^9.19",
         "laravel/sanctum": "^3.0",
+        "laravel/telescope": "^4.14",
         "laravel/tinker": "^2.7",
         "laravel/ui": "^4.2",
         "mcamara/laravel-localization": "^1.8",
