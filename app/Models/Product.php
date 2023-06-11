@@ -90,14 +90,14 @@ class Product extends Model
         });
 
         $builder->when($filters['categories'], function ($builder, $value) {
-            $builder->whereHas('category', function ($builder, $value) {
+            $builder->whereHas('category', function ($builder) use($value) {
                 $ids = json_decode($value);
                 $builder->whereIn('id', $ids);
             });
         });
 
         $builder->when($filters['subCategories'], function ($builder, $value) {
-            $builder->whereHas('sub_category', function ($builder, $value) {
+            $builder->whereHas('sub_category', function ($builder) use($value) {
                 $ids = json_decode($value);
                 $builder->whereIn('id', $ids);
             });
@@ -144,26 +144,4 @@ class Product extends Model
         }
     }
 
-    function calculateDistance($latitude1, $longitude1, $latitude2, $longitude2)
-    {
-        $earthRadius = 6371; // Radius of the Earth in kilometers
-
-        // Convert latitude and longitude from degrees to radians
-        $latFrom = deg2rad($latitude1);
-        $lonFrom = deg2rad($longitude1);
-        $latTo = deg2rad($latitude2);
-        $lonTo = deg2rad($longitude2);
-
-        // Calculate the differences between the coordinates
-        $latDiff = $latTo - $latFrom;
-        $lonDiff = $lonTo - $lonFrom;
-
-        // Apply the Haversine formula
-        $a = sin($latDiff / 2) * sin($latDiff / 2) +
-            cos($latFrom) * cos($latTo) * sin($lonDiff / 2) * sin($lonDiff / 2);
-        $c = 2 * atan2(sqrt($a), sqrt(1 - $a));
-        $distance = $earthRadius * $c;
-
-        return $distance;
-    }
 }
