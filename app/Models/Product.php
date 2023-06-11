@@ -132,7 +132,7 @@ class Product extends Model
                 $q->where('status', 'COMPLETED')->where('buyer_id', Auth::user()->id);
             });
         });
- 
+
     }
 
     public function scopeChangeStatus()
