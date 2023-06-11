@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\ControllersService;
 use App\Http\Requests\FavoriteRequest;
 use App\Models\Favorite;
+use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Throwable;
 
 class FavoritesController extends Controller
@@ -25,7 +27,7 @@ class FavoritesController extends Controller
 
     public function destroy($id)
     {
-        Favorite::find($id)->delete();
+        Favorite::where('product_id' , $id)->where('user_id' , Auth::user()->id)->delete();
         return ControllersService::generateProcessResponse(true, 'DELETE_SUCCESS', 200);
     }
 }
