@@ -140,7 +140,7 @@ class ProductsController extends Controller
     public function getClosestLocations($targetLatitude, $targetLongitude , $distance)
     {
         $locations = Product::get(); // Retrieve all locations from the database
-        
+
         // Calculate distances and add them to the locations
         foreach ($locations as $key => $location) {
             $location->distance = $this->calculateDistance($targetLatitude, $targetLongitude, $location->lat, $location->lng);

@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('title_ar');
             $table->string('title_en');
             $table->string('file');
-            $table->string('price');
+            $table->double('price');
             $table->string('discount')->nullable();
             $table->text('description_ar');
             $table->text('description_en');
