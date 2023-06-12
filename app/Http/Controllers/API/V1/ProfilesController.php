@@ -76,6 +76,7 @@ class ProfilesController extends Controller
                 'message' => $e->getMessage(),
             ], 500);
         }
+        return parent::success(User::with('profile')->find(Auth::user()->id) , 'تم التعديل بنجاح');
         return ControllersService::generateProcessResponse(true, 'UPDATE_SUCCESS', 200);
     }
 
