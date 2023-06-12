@@ -7,7 +7,7 @@
     "require": {
         "php": "^8.0.2",
         "guzzlehttp/guzzle": "^7.2",
-        "laravel-notification-channels/fcm": "*",
+        "laravel-notification-channels/fcm": "3.2.1",
         "laravel/framework": "^9.19",
         "laravel/sanctum": "^3.0",
         "laravel/telescope": "^4.14",
@@ -39,10 +39,8 @@
     "autoload-dev": {
         "psr-4": {
             "Tests\\": "tests/"
-        }
-    },
-    "scripts": {
-        "post-autoload-dump": [
+        }    },    "scrits": {
+        "post-atoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi"
         ],
