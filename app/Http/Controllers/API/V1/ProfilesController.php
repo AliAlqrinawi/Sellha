@@ -65,7 +65,7 @@ class ProfilesController extends Controller
                 $firstavatar->move('uploads/profiles/', $firstavatarName);
                 $data['avatar'] = 'uploads/profiles/' . $firstavatarName;
             }
-            Profile::find($id)->update($data);
+            Profile::find(Auth::user()->profile->id)->update($data);
             $user = User::find(Auth::user()->id);
             $user->name = $data['user_name'] ?? $user->name;
             $user->phone = $data['phone'] ?? $user->name;
