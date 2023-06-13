@@ -22,6 +22,9 @@ return new class extends Migration
             $table->boolean('is_read')->default(0);
             $table->enum('type' , ['CONTENT' , 'IMAGE' , 'LOCATION']);
             $table->foreignId('chat_id')->constrained('chats', 'id')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('sender_id')->constrained('users', 'id')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('receiver_id')->constrained('users', 'id')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('product_id')->constrained('products', 'id')->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();
         });
     }

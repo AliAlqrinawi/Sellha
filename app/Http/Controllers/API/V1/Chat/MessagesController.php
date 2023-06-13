@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API\V1\Chat;
 
+use App\Events\SendMessage;
 use App\Helpers\Messages;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\ControllersService;
@@ -20,8 +21,11 @@ class MessagesController extends Controller
      */
     public function index(Request $request)
     {
-        $messages = Message::with('chat')->get();
-        return (new MessageCollection($messages))->additional(['code' => 200 , 'status' => true, 'message' => Messages::getMessage('operation accomplished successfully')]);
+        $messages = Message::where('chat_id' , $request->chat_id)->with('chat');
+        $messages->whereIn('id' , $messages->pluck('id')->toArray())->update([
+            'is_read' => 1,
+        ]);
+        return (new MessageCollection($messages->get()))->additional(['code' => 200 , 'status' => true, 'message' => Messages::getMessage('operation accomplished successfully')]);
     }
 
     /**
@@ -33,7 +37,8 @@ class MessagesController extends Controller
     public function store(MessageStoreRequest $messageStoreRequestst)
     {
         try {
-            Message::create($messageStoreRequestst->messageData());
+            $message = Message::create($messageStoreRequestst->messageData());
+            event(new SendMessage($message));
             return ControllersService::generateProcessResponse(true, 'CREATE_SUCCESS', 200);
         } catch (Throwable $e) {
             return response([

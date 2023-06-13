@@ -10,16 +10,15 @@ class ChatResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'type' => $this->type,
             'status' => $this->status,
-            'image' => $this->image,
-            'buyer_id' => $this->buyer_id,
+            'sender_id' => $this->sender_id,
             'product_id' => $this->product_id,
-            'seller_id'=> $this->seller_id,
+            'receiver_id'=> $this->receiver_id,
             'created_at'=> $this->created_at,
-            'buyer' => new UserResource($this->whenLoaded('buyer')),
+            'sender' => new UserResource($this->whenLoaded('sender')),
             'product' => new ProductResource($this->whenLoaded('product')),
-            'seller' => new UserResource($this->whenLoaded('seller')),
+            'receiver' => new UserResource($this->whenLoaded('receiver')),
+            'lastMessage' => new MessageResource($this->whenLoaded('lastMessage')),
         ];
     }
 }

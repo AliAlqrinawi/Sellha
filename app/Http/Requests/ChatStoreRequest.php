@@ -25,25 +25,16 @@ class ChatStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'type' => 'required|in:SALE,BUY',
             'status' => 'required|in:NORMAL,ARCHIVED,BLOCKED',
-            'image' => 'required|image',
-            'buyer_id' => 'required|exists:users,id',
+            'sender_id' => 'required|exists:users,id',
             'product_id' => 'required|exists:products,id',
-            'seller_id' => 'required|exists:users,id',
+            'receiver_id' => 'required|exists:users,id',
         ];
     }
 
     public function userData()
     {
         $data = $this->validated();
-        if (isset($data['image'])) {
-            $name = Str::random(12);
-            $firstimage = $data['image'];
-            $firstimageName = $name . time() . '_' . '.' . $firstimage->getClientOriginalExtension();
-            $firstimage->move('uploads/chats/', $firstimageName);
-            $data['image'] = 'uploads/chats/' . $firstimageName;
-        }
         return $data;
     }
 }
