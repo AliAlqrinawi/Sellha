@@ -9,7 +9,7 @@ class Message extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['content' , 'image' , 'lat' , 'lng' , 'is_read' , 'type' , 'chat_id'];
+    protected $fillable = ['content' , 'sender_id' , 'product_id' , 'receiver_id' , 'image' , 'lat' , 'lng' , 'is_read' , 'type' , 'chat_id'];
 
     public function chat()
     {

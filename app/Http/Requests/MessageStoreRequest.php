@@ -31,7 +31,10 @@ class MessageStoreRequest extends FormRequest
             'image' => 'nullable|image',
             'is_read' => 'required|in:0,1',
             'type' => 'required|in:CONTENT,IMAGE,LOCATION',
-            'chat_id' => 'required|exists:chats,id',
+            'chat_id' => 'nullable|exists:chats,id',
+            'sender_id' => 'required|exists:users,id',
+            'product_id' => 'required|exists:products,id',
+            'receiver_id' => 'required|exists:users,id',
         ];
     }
 

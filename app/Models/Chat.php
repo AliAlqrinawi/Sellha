@@ -9,25 +9,26 @@ class Chat extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['type' , 'status' , 'image' , 'buyer_id' , 'product_id' , 'seller_id'];
+    protected $fillable = ['status' , 'sender_id' , 'receiver_id' , 'product_id'];
 
-    public function getImageAttribute()
+    public function sender()
     {
-        return url('/') . '/' . $this->attributes['image'];
+        return $this->belongsTo(User::class , 'sender_id' , 'id');
     }
 
-    public function buyer()
+    public function receiver()
     {
-        return $this->belongsTo(User::class , 'buyer_id' , 'id');
-    }
-
-    public function seller()
-    {
-        return $this->belongsTo(User::class , 'seller_id' , 'id');
+        return $this->belongsTo(User::class , 'receiver_id' , 'id');
     }
 
     public function product()
     {
         return $this->belongsTo(Product::class , 'product_id' , 'id');
     }
+
+    public function lastMessage()
+    {
+        return $this->hasOne(Message::class, 'chat_id', 'id')->orderBy('id', 'desc');
+    }
+
 }
