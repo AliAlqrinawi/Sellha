@@ -245,12 +245,15 @@
             maxZoom: 19,
             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         }).addTo(map);
-        L.marker([{{ $product->lat }}, {{ $product->lng }}]).addTo(map)
-        map.on('click', function(e) {
-            var lat = e.latlng.lat;
-            var lng = e.latlng.lng;
-            var marker = L.marker([lat, lng]).addTo(map);
 
+        let marker = L.marker([{{ $product->lat }}, {{ $product->lng }}]).addTo(map)
+        map.on('click', (event) => {
+            if (marker !== null) {
+                map.removeLayer(marker);
+            }
+            marker = L.marker([event.latlng.lat, event.latlng.lng]).addTo(map);
+            lat = event.latlng.lat;
+            lng = event.latlng.lng;
             document.getElementById("lat").value = lat;
             document.getElementById("lng").value = lng;
         });
