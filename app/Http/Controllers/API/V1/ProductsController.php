@@ -43,7 +43,7 @@ class ProductsController extends Controller
                 'myPurchases' => $request->myPurchases,
             ])
             ->orderBy('id', 'desc')
-            ->with('user' , 'category', 'sub_category', 'favorite', 'files', 'order')->get();
+            ->with('user.profile' , 'category', 'sub_category', 'favorite', 'files', 'order')->get();
             if($request->SortByDistance == 'closest'){
                 $products =  $this->getClosestLocations(Auth::user()->profile->lat , Auth::user()->profile->lng , 'closest');
             }
