@@ -21,6 +21,7 @@ class MessageResource extends JsonResource
             'product_id' => $this->product_id,
             'receiver_id' => $this->receiver_id,
             'chat_id' => $this->chat_id,
+            'created_at' => $this->created_at,
             'chat' => new ChatResource($this->whenLoaded('chat')),
         ];
     }
