@@ -53,7 +53,7 @@ class AuthController extends AuthBaseController
 
     public function submitCode(SubmitCodeRequest $submitCodeRequest)
     {
-        $user = User::where('phone', $submitCodeRequest->phone)->first();
+        $user = User::with('profile')->where('phone', $submitCodeRequest->phone)->first();
         if (!$user) {
             return ControllersService::generateValidationErrorMessage("الرقم المدخل غير مسجل من قبل", 200);
         }
@@ -62,12 +62,6 @@ class AuthController extends AuthBaseController
             $user->save();
             return $this->generateToken($user, 'LOGGED_IN_SUCCESSFULLY');
         }
-
-        // if ($submitCodeRequest->otp == 1234) {
-        //     $user->email_verified_at = Carbon::now();
-        //     $user->save();
-        //     return $this->generateToken($user, 'LOGGED_IN_SUCCESSFULLY');
-        // }
         return ControllersService::generateProcessResponse(false, 'ERROR_CREDENTIALS', 200);
     }
 
