@@ -21,7 +21,7 @@ class MessagesController extends Controller
      */
     public function index(Request $request)
     {
-        $messages = Message::where('chat_id' , $request->chat_id)->with('chat');
+        $messages = Message::where('chat_id' , $request->chat_id)->orderBy('id', 'desc')->with('chat');
         $messages->whereIn('id' , $messages->pluck('id')->toArray())->update([
             'is_read' => 1,
         ]);
