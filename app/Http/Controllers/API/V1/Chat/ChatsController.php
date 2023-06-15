@@ -26,7 +26,7 @@ class ChatsController extends Controller
         ->when($request->status, function($q) use ($request) {
             $q->where('status', $request->status);
         })
-        ->with('sender' , 'receiver' , 'product' , 'lastMessage')->get();
+        ->with('sender.profile' , 'receiver.profile' , 'product' , 'lastMessage')->get();
         return (new ChatCollection($chats))->additional(['code' => 200 , 'status' => true, 'message' => Messages::getMessage('operation accomplished successfully')]);
     }
 
