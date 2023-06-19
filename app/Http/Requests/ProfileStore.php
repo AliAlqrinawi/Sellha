@@ -31,6 +31,7 @@ class ProfileStore extends FormRequest
             'user_name' => 'nullable|string|max:255',
             'about' => 'nullable|string|max:255',
             'distance' => 'nullable|in:MILE,KILO',
+            'notification_flag' => 'nullable|in:0,1',
             'lat' => 'nullable',
             'lng' => 'nullable',
         ];

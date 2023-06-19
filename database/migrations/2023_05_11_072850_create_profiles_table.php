@@ -21,6 +21,7 @@ return new class extends Migration
             $table->double('lat')->nullable();
             $table->double('lng')->nullable();
             $table->string('about')->nullable();
+            $table->boolean('notification_flag')->default(0);
             $table->enum('distance' , ['MILE' , 'KILO'])->default('MILE');
             $table->foreignId('user_id')->constrained('users', 'id')->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();
