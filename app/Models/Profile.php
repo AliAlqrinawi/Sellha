@@ -10,7 +10,7 @@ class Profile extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_name' , 'email' , 'avatar' , 'lat' , 'lng' , 'about' , 'distance' , 'user_id'];
+    protected $fillable = ['user_name' , 'email' , 'avatar' , 'lat' , 'lng' , 'about' , 'distance' , 'user_id' , 'notification_flag'];
 
 
     public function getAvatarAttribute()
