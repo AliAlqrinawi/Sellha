@@ -56,7 +56,7 @@ class CreatedProductNotification extends Notification
     public function toFcm($notifiable)
     {
         return FcmMessage::create()
-        ->setData(['product_id' => $this->product->id])
+        ->setData(['product_id' => $this->product->id.''])
         ->setNotification(\NotificationChannels\Fcm\Resources\Notification::create()
         ->setTitle($this->product->title_ar)
         ->setBody($this->product->description_ar)
