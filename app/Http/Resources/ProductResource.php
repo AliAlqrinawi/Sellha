@@ -34,6 +34,7 @@ class ProductResource extends JsonResource
             'category_id' => $this->category_id,
             'sub_category_id' => $this->sub_category_id,
             'user_id' => $this->user_id,
+            'created_at' => $this->created_at,
             'user' =>  new UserResource($this->whenLoaded('user')),
             'order' =>  new OrderResource($this->whenLoaded('order')),
             'category' =>  new CategoryResource($this->whenLoaded('category')),

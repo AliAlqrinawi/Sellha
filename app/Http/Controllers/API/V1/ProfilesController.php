@@ -21,8 +21,7 @@ class ProfilesController extends Controller
      */
     public function index()
     {
-        $user = User::with('profile')->find(Auth::user()->id);
-        return (new UserResource($user));
+        return parent::success(User::with('profile')->find(Auth::user()->id) , 'تم التعديل بنجاح');
     }
 
     /**
