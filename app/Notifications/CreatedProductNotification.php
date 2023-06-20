@@ -58,15 +58,16 @@ class CreatedProductNotification extends Notification
         return FcmMessage::create()
         ->setData(['product_id' => $this->product->id])
         ->setNotification(\NotificationChannels\Fcm\Resources\Notification::create()
-            ->setTitle('طلب جديد')
-            ->setBody('لقد حصلت على طلب جديد'));
+        ->setTitle($this->product->title_ar)
+        ->setBody($this->product->description_ar)
+        ->setImage($this->product->file));
     }
 
     public function toDatabase($notifiable)
     {
         return [
-            'title' => 'طلب جديد',
-            'body' => 'تم أنشاء طلبك بنجاح',
+            'title' => $this->product->title_ar,
+            'body' => $this->product->description_ar,
             'product_id' => $this->product->id,
             'file' => $this->product->file,
         ];

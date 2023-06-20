@@ -62,4 +62,14 @@ class User extends Authenticatable
             }
         }
     }
+
+        /**
+     * Specifies the user's FCM token
+     *
+     * @return string|array
+     */
+    public function routeNotificationForFcm()
+    {
+        return $this->devices()->pluck('fcm_token')->toArray();
+    }
 }

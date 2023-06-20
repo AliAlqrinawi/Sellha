@@ -10,6 +10,7 @@ use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\SubmitCodeRequest;
 use App\Models\Profile;
 use App\Models\User;
+use App\Services\DivecTokensService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
@@ -51,15 +52,21 @@ class AuthController extends AuthBaseController
         return ControllersService::generateProcessResponse(true, 'DELETE_SUCCESS' , 200);
     }
 
-    public function submitCode(SubmitCodeRequest $submitCodeRequest)
+    public function submitCode(SubmitCodeRequest $submitCodeRequest , DivecTokensService $divecTokensService)
     {
         $user = User::with('profile')->where('phone', $submitCodeRequest->phone)->first();
+        $dataForToken = [
+            'fcm_token' => $submitCodeRequest->fcm_token,
+            'user_id' => $user->id,
+            'device_name' => $submitCodeRequest->device_name,
+        ];
         if (!$user) {
             return ControllersService::generateValidationErrorMessage("الرقم المدخل غير مسجل من قبل", 200);
         }
         if (Hash::check($submitCodeRequest->otp , $user->otp) or $submitCodeRequest->otp == 1234) {
             $user->email_verified_at = Carbon::now();
             $user->save();
+            $divecTokensService->handle($dataForToken);
             return $this->generateToken($user, 'LOGGED_IN_SUCCESSFULLY');
         }
         return ControllersService::generateProcessResponse(false, 'ERROR_CREDENTIALS', 200);
