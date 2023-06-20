@@ -22,7 +22,7 @@ class CategoriesController extends Controller
         })->when($request->name, function($q) use ($request) {
             $q->where('title_ar', 'like', '%' . $request->name . '%')
             ->orWhere('title_en' , 'like' , '%'. $request->name . '%');
-        })->where('parent_id' , null)->with('sub_category')->get();
-        return (new CategoryCollection($categories))->additional(['code' => 200 , 'status' => true , 'message' => Messages::getMessage('operation accomplished successfully')]);
+        })->where('parent_id' , null)->with('sub_category' , 'desire')->get();
+        return parent::success($categories , 'تم التعديل بنجاح');
     }
 }
