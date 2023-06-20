@@ -119,7 +119,7 @@ class Product extends Model
 
         $builder->when($filters['mySales'], function ($q) {
             $q->whereHas('order', function ($q) {
-                $q->where('status', 'COMPLETED')->where('seller_id' , Auth::user()->id);
+                $q->where('seller_id' , Auth::user()->id);
             });
         });
 
@@ -129,7 +129,7 @@ class Product extends Model
 
         $builder->when($filters['myPurchases'], function ($q) {
             $q->whereHas('order', function ($q) {
-                $q->where('status', 'COMPLETED')->where('buyer_id', Auth::user()->id);
+                $q->where('buyer_id', Auth::user()->id);
             });
         });
 

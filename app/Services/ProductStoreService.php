@@ -2,10 +2,14 @@
 
 namespace App\Services;
 
+use App\Models\Desire;
 use App\Models\File;
 use App\Models\Product;
+use App\Models\User;
+use App\Notifications\CreatedProductNotification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Str;
 use Throwable;
 
@@ -47,6 +51,9 @@ class ProductStoreService
             }
         }
             DB::commit();
+            $desire = Desire::whereIn('category_id' , [$product->category_id , $product->sub_category_id])->pluck('user_id')->toArray();
+            $users = User::whereIn('id' , $desire)->get();
+            Notification::send($users, new CreatedProductNotification($product));
         } catch (Throwable $e) {
             DB::rollBack();
             throw $e;
