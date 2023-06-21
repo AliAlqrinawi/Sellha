@@ -16,4 +16,9 @@ class Message extends Model
         return $this->belongsTo(Chat::class , 'chat_id' , 'id');
     }
 
+    public function receiver()
+    {
+        return $this->belongsTo(User::class , 'receiver_id' , 'id');
+    }
+
 }

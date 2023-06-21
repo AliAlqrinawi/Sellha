@@ -2,27 +2,29 @@
 
 namespace App\Notifications;
 
-use App\Models\Product;
+use App\Helpers\Messages;
+use App\Models\Message;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use NotificationChannels\Fcm\FcmChannel;
 use NotificationChannels\Fcm\FcmMessage;
 
-class CreatedProductNotification extends Notification
+class CreatedMessageNotification extends Notification
 {
     use Queueable;
 
-    protected Product $product;
+    protected Message $message;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct(Product $product)
+    public function __construct($message)
     {
-        $this->product = $product;
+        $this->message = $message;
     }
 
     /**
@@ -41,21 +43,22 @@ class CreatedProductNotification extends Notification
 
     public function toFcm($notifiable)
     {
+        if($this->message->lat != NULL){
+            $this->message->content = Messages::getMessage('A site has been sent');
+        }
         return FcmMessage::create()
-        ->setData(['product_id' => $this->product->id.''])
+        ->setData(['chat_id' => $this->message->chat_id.''])
         ->setNotification(\NotificationChannels\Fcm\Resources\Notification::create()
-        ->setTitle($this->product->title_ar)
-        ->setBody($this->product->description_ar)
-        ->setImage($this->product->file));
+        ->setTitle(Messages::getMessage('New Message'))
+        ->setBody($this->message->content));
     }
 
     public function toDatabase($notifiable)
     {
         return [
-            'title' => $this->product->title_ar,
-            'body' => $this->product->description_ar,
-            'product_id' => $this->product->id,
-            'file' => $this->product->file,
+            'title' => Messages::getMessage('New Message'),
+            'body' => $this->message->content,
+            'chat_id' => $this->message->chat_id
         ];
     }
 
