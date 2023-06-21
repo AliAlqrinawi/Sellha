@@ -9,6 +9,7 @@ use App\Http\Controllers\ControllersService;
 use App\Http\Requests\MessageStoreRequest;
 use App\Http\Resources\MessageCollection;
 use App\Models\Message;
+use App\Notifications\CreatedMessageNotification;
 use Illuminate\Http\Request;
 use Throwable;
 
@@ -39,6 +40,7 @@ class MessagesController extends Controller
         try {
             $message = Message::create($messageStoreRequestst->messageData());
             event(new SendMessage($message));
+            $message->receiver->notify(new CreatedMessageNotification($message));
             return ControllersService::generateProcessResponse(true, 'CREATE_SUCCESS', 200);
         } catch (Throwable $e) {
             return response([

@@ -90,6 +90,8 @@ class Messages
         'COMPLETED' => 'نحن هنا لخدمتكم',
         'CANCELLED_BY_VENDOR' => 'نعتذر تم إلغاء طلبك من قبل موزع : ',
         'CANCELLED_BY_CUSTOMER' => 'تم رفض طلب من قبل الزبون :',
+        'New Message' => 'رسالة جديدة',
+        'A site has been sent' => 'تم ارسال موقع',
     ];
 
     private static $enMessages = [
@@ -179,6 +181,9 @@ class Messages
         'COMPLETED' => 'We are here to serve you',
         'CANCELLED_BY_VENDOR' => 'We apologize your order has been canceled by a distributor :',
         'CANCELLED_BY_CUSTOMER' => 'The request was rejected by the customer:',
+
+        'New Message' => 'New Message',
+        'A site has been sent' => 'A site has been sent',
 
     ];
 
