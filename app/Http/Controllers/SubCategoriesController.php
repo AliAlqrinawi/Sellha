@@ -29,7 +29,7 @@ class SubCategoriesController extends Controller
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('image', function ($row) {
-                    $image = '<img src="' . asset('/') . $row->image . '" alt="image" width="50" height="50">';
+                    $image = '<img src="' . $row->image . '" alt="image" width="50" height="50">';
                     return $image;
                 })
                 ->addColumn('status', function ($row) {
