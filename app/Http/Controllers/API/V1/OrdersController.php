@@ -36,13 +36,12 @@ class OrdersController extends Controller
     {
         $data = $orderStore->all();
         try {
-            $orderStoreService->handle($data);
-            return ControllersService::generateProcessResponse(true, 'CREATE_SUCCESS', 200);
+            return $orderStoreService->handle($data);
         } catch (Throwable $e) {
             return response([
                 'message' => $e->getMessage(),
             ], 500);
-        }   
+        }
     }
 
     /**
@@ -57,26 +56,25 @@ class OrdersController extends Controller
         return parent::success($order , Messages::getMessage('operation accomplished successfully'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    public function createPaymentLink(OrderStoreService $orderStoreService , $id)
     {
-        //
+        try {
+            return $orderStoreService->createPaymentLink($id);
+        } catch (Throwable $e) {
+            return response([
+                'message' => $e->getMessage(),
+            ], 500);
+        }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    public function sendIdForPayment(OrderStoreService $orderStoreService , $id , $idOrder)
     {
-        //
+        try {
+            return $orderStoreService->sendIdForPayment($id , $idOrder);
+        } catch (Throwable $e) {
+            return response([
+                'message' => $e->getMessage(),
+            ], 500);
+        }
     }
 }
