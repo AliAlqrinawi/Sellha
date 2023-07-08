@@ -7,7 +7,7 @@
     <title>Document</title>
 </head>
 <body>
-    <form action="{{ route('sendIdForPayment' , $responseData->id) }}" class="paymentWidgets">VISA MASTER AMEX</form>
+    <form action="{{ route('sendIdForPayment' , [$responseData->id , $order->id]) }}" class="paymentWidgets">VISA MASTER AMEX</form>
     <script src="https://test.oppwa.com/v1/paymentWidgets.js?checkoutId={{ $responseData->id }}"></script>
 </body>
 </html>

@@ -67,10 +67,10 @@ class OrdersController extends Controller
         }
     }
 
-    public function sendIdForPayment(OrderStoreService $orderStoreService , $id)
+    public function sendIdForPayment(OrderStoreService $orderStoreService , $id , $idOrder)
     {
         try {
-            return $orderStoreService->sendIdForPayment($id);
+            return $orderStoreService->sendIdForPayment($id , $idOrder);
         } catch (Throwable $e) {
             return response([
                 'message' => $e->getMessage(),

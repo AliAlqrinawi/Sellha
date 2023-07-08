@@ -116,5 +116,5 @@ Route::group([
 });
 
 Route::get('createPaymentLink/{id}', [V1OrdersController::class , 'createPaymentLink'])->name('createPaymentLink');
-Route::get('sendIdForPayment/{id}', [V1OrdersController::class , 'sendIdForPayment'])->name('sendIdForPayment');
+Route::get('sendIdForPayment/{id}/{idOrder}', [V1OrdersController::class , 'sendIdForPayment'])->name('sendIdForPayment');
 
