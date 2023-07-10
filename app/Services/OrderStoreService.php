@@ -75,7 +75,6 @@ class OrderStoreService extends Controller
         }
         curl_close($ch);
         $responseData = json_decode($responseData);
-        // return $order ;
         if (
             $responseData->result->code == "000.000.000" || $responseData->result->code == "000.000.100" ||
             $responseData->result->code == "000.100.105" || $responseData->result->code == "000.100.106" ||
@@ -89,10 +88,12 @@ class OrderStoreService extends Controller
         ) {
             $order->update(['payment_status' => 'PAID']);
             $order->save();
+            return redirect()->route("statusPayment" , [$order->id , "PAID"]);
             return ControllersService::generateProcessResponse(true, 'CREATE_SUCCESS', 200);
         } else {
             $order->update(['payment_status' => 'FAILED']);
             $order->save();
+            return redirect()->route("statusPayment" , [$order->id , "FAILED"]);
             return ControllersService::generateProcessResponse(false, 'CREATE_FAILED', 200);
         }
     }

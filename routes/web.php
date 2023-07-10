@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminsController;
 use App\Http\Controllers\AdsController;
 use App\Http\Controllers\API\V1\OrdersController as V1OrdersController;
 use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\ControllersService;
 use App\Http\Controllers\ControlPanelUsersController;
 use App\Http\Controllers\DenouncementsController;
 use App\Http\Controllers\HomeController;
@@ -117,4 +118,11 @@ Route::group([
 
 Route::get('createPaymentLink/{id}', [V1OrdersController::class , 'createPaymentLink'])->name('createPaymentLink');
 Route::get('sendIdForPayment/{id}/{idOrder}', [V1OrdersController::class , 'sendIdForPayment'])->name('sendIdForPayment');
+Route::get('statusPayment/{id}/{status}', function($id , $status){
+    if($status == "PAID"){
+        return ControllersService::generateProcessResponse(true, 'CREATE_SUCCESS', 200);
+    }else{
+        return ControllersService::generateProcessResponse(false, 'CREATE_FAILED', 200);
+    }
+})->name("statusPayment");
 
