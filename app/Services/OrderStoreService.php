@@ -18,6 +18,7 @@ class OrderStoreService extends Controller
             $order = Order::create($data);
             $data = [
                 "paymentLink" => route('createPaymentLink', $order->id),
+                "order" => $order,
             ];
             DB::commit();
             return parent::success($data, Messages::getMessage('operation accomplished successfully'));
