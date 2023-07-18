@@ -6,6 +6,7 @@ use App\Helpers\Messages;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\ControllersService;
 use App\Models\Order;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Throwable;
 
@@ -31,8 +32,20 @@ class OrderStoreService extends Controller
     public function createPaymentLink($id)
     {
         $order = Order::find($id);
-        $url = "https://test.oppwa.com/v1/checkouts";
-        $data = "entityId=8a8294174d0595bb014d05d82e5b01d2" .
+        $entityId = "8ac7a4c78920530a018920bd7180011d";
+        $type = "VISA MASTER";
+        if ($order->payment_type == "MADA") {
+            $type = "MADA";
+            $entityId = "8ac7a4c78920530a018920be0ed20121";
+        } else if ($order->payment_type == "VISA") {
+            $type = "VISA";
+            $entityId = "8ac7a4c78920530a018920bd7180011d";
+        } else if ($order->payment_type == "MASTER") {
+            $type = "MASTER";
+            $entityId = "8ac7a4c78920530a018920bd7180011d";
+        }
+        $url = "https://eu-test.oppwa.com/v1/checkouts";
+        $data = "entityId=$entityId" .
             "&amount=$order->total" .
             "&currency=SAR" .
             "&paymentType=DB" .
@@ -42,7 +55,7 @@ class OrderStoreService extends Controller
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-            'Authorization:Bearer OGE4Mjk0MTc0ZDA1OTViYjAxNGQwNWQ4MjllNzAxZDF8OVRuSlBjMm45aA=='
+            'Authorization:Bearer OGFjN2E0Yzc4OTIwNTMwYTAxODkyMGJjZGEyMDAxMTl8ZzVoc0E2d3c5dw=='
         ));
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
@@ -54,18 +67,26 @@ class OrderStoreService extends Controller
         }
         curl_close($ch);
         $responseData = json_decode($responseData);
-        return view('pay', compact('responseData', 'order'));
+        return view('pay', compact('responseData', 'order', 'type'));
     }
 
     public function sendIdForPayment($id, $idOrder)
     {
         $order = Order::find($idOrder);
-        $url = "https://test.oppwa.com/v1/checkouts/$id/payment";
-        $url .= "?entityId=8a8294174d0595bb014d05d82e5b01d2";
+        $entityId = "8ac7a4c78920530a018920bd7180011d";
+        if ($order->payment_type == "MADA") {
+            $entityId = "8ac7a4c78920530a018920be0ed20121";
+        } else if ($order->payment_type == "VISA") {
+            $entityId = "8ac7a4c78920530a018920bd7180011d";
+        } else if ($order->payment_type == "MASTER") {
+            $entityId = "8ac7a4c78920530a018920bd7180011d";
+        }
+        $url = "https://eu-test.oppwa.com/v1/checkouts/$id/payment";
+        $url .= "?entityId=$entityId";
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-            'Authorization:Bearer OGE4Mjk0MTc0ZDA1OTViYjAxNGQwNWQ4MjllNzAxZDF8OVRuSlBjMm45aA=='
+            'Authorization:Bearer OGFjN2E0Yzc4OTIwNTMwYTAxODkyMGJjZGEyMDAxMTl8ZzVoc0E2d3c5dw=='
         ));
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // this should be set to true in production
@@ -89,12 +110,12 @@ class OrderStoreService extends Controller
         ) {
             $order->update(['payment_status' => 'PAID']);
             $order->save();
-            return redirect()->route("statusPayment" , [$order->id , "PAID"]);
+            return redirect()->route("statusPayment", [$order->id, "PAID"]);
             return ControllersService::generateProcessResponse(true, 'CREATE_SUCCESS', 200);
         } else {
             $order->update(['payment_status' => 'FAILED']);
             $order->save();
-            return redirect()->route("statusPayment" , [$order->id , "FAILED"]);
+            return redirect()->route("statusPayment", [$order->id, "FAILED"]);
             return ControllersService::generateProcessResponse(false, 'CREATE_FAILED', 200);
         }
     }

@@ -7,7 +7,12 @@
     <title>Document</title>
 </head>
 <body>
-    <form action="{{ route('sendIdForPayment' , [$responseData->id , $order->id]) }}" class="paymentWidgets">VISA MASTER AMEX</form>
-    <script src="https://test.oppwa.com/v1/paymentWidgets.js?checkoutId={{ $responseData->id }}"></script>
+    <form action="{{ route('sendIdForPayment' , [$responseData->id , $order->id , $type]) }}" data-brands="{{ $type }}" class="paymentWidgets">VISA MASTER AMEX</form>
+    <script src="https://eu-test.oppwa.com/v1/paymentWidgets.js?checkoutId={{ $responseData->id }}"></script>
+    <script type="text/javascript">
+        var wpwlOptions = {
+        paymentTarget:"_top",
+        }
+        </script>
 </body>
 </html>

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('total');
             $table->double('lat');
             $table->double('lng');
+            $table->string('payment_type')->nullable();
 			$table->enum('status', ['PENDING', 'PROCESSING', 'DELIVERING', 'COMPLETED', 'CANCELLED', 'REFUNDED'])->default('PENDING');
             $table->enum('payment_status', ['PENDING', 'PAID', 'FAILED'])->default('PENDING');
             $table->foreignId('buyer_id')->constrained('users', 'id')->cascadeOnDelete()->cascadeOnUpdate();
