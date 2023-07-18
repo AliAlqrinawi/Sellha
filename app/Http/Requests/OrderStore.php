@@ -26,6 +26,7 @@ class OrderStore extends FormRequest
     {
         return [
             'total' => 'required|numeric|integer',
+            'payment_type' => 'required',
             'lat' => 'required|numeric',
             'lng' => 'required|numeric',
             'buyer_id' => 'required|exists:users,id',
