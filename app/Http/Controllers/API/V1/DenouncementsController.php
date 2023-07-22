@@ -19,6 +19,8 @@ class DenouncementsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+     
     public function index()
     {
         $reasons = Reason::get();
