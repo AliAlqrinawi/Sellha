@@ -22,6 +22,7 @@ class ProfileController extends Controller
             abort(500);
         }
         $user = User::with('profile')->withCount('products' , 'orders')->withSum('orders' , 'total')->find($id);
+        
         return view('dashboard.views-dash.profile.index' , compact('user'));
     }
 
