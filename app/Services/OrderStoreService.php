@@ -43,6 +43,9 @@ class OrderStoreService extends Controller
         } else if ($order->payment_type == "MASTER") {
             $type = "MASTER";
             $entityId = "8ac7a4c78920530a018920bd7180011d";
+        }else if($order->payment_type == "APPLEPAY"){
+            $type = "APPLEPAY";
+            $entityId = "8ac7a4ca8a69d057018a69da4bf20024";
         }
         $url = "https://eu-test.oppwa.com/v1/checkouts";
         $data = "entityId=$entityId" .
@@ -80,6 +83,8 @@ class OrderStoreService extends Controller
             $entityId = "8ac7a4c78920530a018920bd7180011d";
         } else if ($order->payment_type == "MASTER") {
             $entityId = "8ac7a4c78920530a018920bd7180011d";
+        }else if($order->payment_type == "APPLEPAY"){
+            $entityId = "8ac7a4ca8a69d057018a69da4bf20024";
         }
         $url = "https://eu-test.oppwa.com/v1/checkouts/$id/payment";
         $url .= "?entityId=$entityId";
